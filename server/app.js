@@ -1,10 +1,9 @@
 const express = require('express');
 const Promise = require('bluebird');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const CONFIG = require('config');
 
-const { parseLanguage } = require('./middlewares');
+const setupMiddlewares = require('./middlewares');
 const routes = require('./routes');
 
 const app = express();
@@ -12,7 +11,6 @@ const router = express.Router();
 const PORT = process.env.PORT || 3000;
 const { mongodb } = CONFIG;
 (async () => {
-  // mongodb
   mongoose.Promise = Promise;
   if (mongoose.connection.readyState === 0) {
     mongoose.connect(
@@ -21,9 +19,7 @@ const { mongodb } = CONFIG;
     );
   }
 
-  // express
-  app.use(bodyParser.json());
-  app.use(parseLanguage);
+  setupMiddlewares(app);
   app.use('/api/users', routes(router));
   if (process.env.NODE_ENV !== 'test') {
     app.listen(PORT, () => {
