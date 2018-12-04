@@ -1,6 +1,7 @@
 import "@/assets/scss/pages/_login.scss";
 
 import React, { PureComponent } from "react";
+import { Link } from "react-router-dom";
 import {
   Button,
   Container,
@@ -27,6 +28,7 @@ class Page extends PureComponent {
           <Button type="submit" color="primary" block>
             로그인
           </Button>
+          <Link to="/register">아직 가입하지 않으셨나요?</Link>
         </Form>
       </Container>
     );
