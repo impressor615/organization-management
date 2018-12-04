@@ -15,12 +15,15 @@ const { mongodb } = CONFIG;
   if (mongoose.connection.readyState === 0) {
     mongoose.connect(
       `mongodb://${mongodb.host}:${mongodb.port}/${mongodb.database}`,
-      { useNewUrlParser: true },
+      {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+      },
     );
   }
 
   setupMiddlewares(app);
-  app.use('/api/users', routes(router));
+  app.use('/api', routes(router));
   if (process.env.NODE_ENV !== 'test') {
     app.listen(PORT, () => {
       // eslint-disable-next-line
