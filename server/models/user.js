@@ -19,6 +19,10 @@ module.exports = (connection) => {
       type: String,
       required: true,
     },
+    salt: {
+      type: String,
+      required: true,
+    },
   }, TIMESTAMPS);
 
   return connection.model('User', schema);
