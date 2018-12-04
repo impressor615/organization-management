@@ -2,7 +2,7 @@
 const fs = require('fs');
 
 module.exports = (router) => {
-  const publicRoutes = ['user.js'];
+  const publicRoutes = ['register.js', 'login.js'];
   publicRoutes.forEach(route => (
     require(`./${route}`)(router)
   ));
