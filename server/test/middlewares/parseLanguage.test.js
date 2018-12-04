@@ -1,6 +1,6 @@
 const chai = require('chai');
 const spies = require('chai-spies');
-const { parseLanguage } = require('../../middlewares');
+const parseLanguage = require('../../middlewares/parseLanguage');
 
 
 chai.use(spies);

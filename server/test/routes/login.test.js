@@ -61,7 +61,7 @@ describe('Register Router', () => {
 
     it('should return not_authorized when token is invalid', async () => {
       const res = await chai.request(app)
-        .get('/api/dashboards')
+        .get('/api/nothing')
         .set('x-access-token', 'fakeToken');
 
       assertError(res.error.text, errors.not_authorized);
@@ -69,7 +69,7 @@ describe('Register Router', () => {
 
     it('should return not_authorized when token is invalid', async () => {
       const res = await chai.request(app)
-        .get('/api/dashboards')
+        .get('/api/nothing')
         .set('x-access-token', accessToken);
 
       res.error.status.should.be.equal(404);
