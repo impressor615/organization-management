@@ -1,7 +1,9 @@
+const fs = require('fs');
 const express = require('express');
 const Promise = require('bluebird');
 const mongoose = require('mongoose');
-const CONFIG = require('config');
+const dotenv = require('dotenv');
+
 
 const setupMiddlewares = require('./middlewares');
 const routes = require('./routes');
@@ -9,12 +11,13 @@ const routes = require('./routes');
 const app = express();
 const router = express.Router();
 const PORT = process.env.PORT || 3000;
-const { mongodb } = CONFIG;
+const CONFIG = dotenv.parse(fs.readFileSync(`.env.${process.env.NODE_ENV}`));
+const { DB_HOST, DB_PORT, DB_DATABASE } = CONFIG;
 (async () => {
   mongoose.Promise = Promise;
   if (mongoose.connection.readyState === 0) {
     mongoose.connect(
-      `mongodb://${mongodb.host}:${mongodb.port}/${mongodb.database}`,
+      `mongodb://${DB_HOST}:${DB_PORT}/${DB_DATABASE}`,
       {
         useNewUrlParser: true,
         useCreateIndex: true,

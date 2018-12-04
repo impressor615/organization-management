@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "NODE_ENV=development nodemon app.js",
     "test": "NODE_ENV=test mocha -r ./test/setup.js --recursive --exit"
   },
   "main": "app.js",
@@ -13,6 +13,7 @@
     "body-parser": "^1.18.3",
     "config": "^2.0.1",
     "crypto": "^1.0.1",
+    "dotenv": "^6.1.0",
     "express": "^4.16.3",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
