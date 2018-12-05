@@ -7,6 +7,10 @@
       "module": "commonjs",
       "target": "es5",
       "jsx": "react",
+      "lib": [
+        "dom",
+        "es7",
+      ],
       "baseUrl": "./",
       "allowSyntheticDefaultImports": true,
       "esModuleInterop": true,
