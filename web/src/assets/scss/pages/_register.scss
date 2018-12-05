@@ -1,0 +1,23 @@
+.register {
+  display: flex;
+  align-items: center;
+
+  max-width: 450px;
+  width: 50%;
+  height: 100%;
+
+  h1 {
+    text-align: center;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  a {
+    display: block;
+    margin-top: 15px;
+
+    text-align: center;
+  }
+}
