@@ -1,7 +1,8 @@
 import "@/assets/scss/pages/_register.scss";
 
 import React, { PureComponent } from "react";
-import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
 import {
   Button,
   Container,
@@ -11,6 +12,9 @@ import {
   Label,
 } from "reactstrap";
 
+import { ConnectProps } from "@/@types/types";
+import { register } from "@/actions";
+
 interface States {
   email: string;
   companyName: string;
@@ -18,7 +22,7 @@ interface States {
   passwordCheck: string;
 }
 
-class Page extends PureComponent<{}, States>  {
+class Page extends PureComponent<ConnectProps, States>  {
   public state: States = {
     companyName: "",
     email: "",
@@ -87,7 +91,7 @@ class Page extends PureComponent<{}, States>  {
     this.setState({ [name]: value } as Pick<States, keyof States>);
   }
 
-  private onSubmit = (e: React.FormEvent): void => {
+  private onSubmit = async (e: React.FormEvent): Promise<string> => {
     e.preventDefault();
     const {
       email,
@@ -95,6 +99,7 @@ class Page extends PureComponent<{}, States>  {
       password,
       passwordCheck,
     } = this.state;
+    const { dispatch, history } = this.props;
 
     const postData = {
       company_name: companyName,
@@ -102,8 +107,13 @@ class Page extends PureComponent<{}, States>  {
       password,
       passwordCheck,
     };
+
+    await dispatch(register(postData));
+    history.push("/login");
+    return;
   }
 
 }
 
-export default Page;
+const mapStateToProps = () => ({});
+export default withRouter(connect(mapStateToProps)(Page) as any);

@@ -50,4 +50,9 @@ module.exports = {
     react: 'React',
     'react-dom': 'ReactDOM',
   },
+  devServer: {
+    proxy: {
+      '/api': 'http://localhost:3000',
+    },
+  },
 };
