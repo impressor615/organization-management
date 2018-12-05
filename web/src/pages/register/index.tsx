@@ -13,7 +13,8 @@ import {
 } from "reactstrap";
 
 import { ConnectProps } from "@/@types/types";
-import { register } from "@/actions";
+import { register, setLoading } from "@/actions";
+import { StateInterface } from "@/reducers";
 
 interface States {
   email: string;
@@ -31,6 +32,7 @@ class Page extends PureComponent<ConnectProps, States>  {
   };
 
   public render() {
+    const { loading } = this.props;
     return (
       <Container className="register">
         <Form onSubmit={this.onSubmit}>
@@ -75,7 +77,12 @@ class Page extends PureComponent<ConnectProps, States>  {
               required
             />
           </FormGroup>
-          <Button type="submit" color="primary" block>
+          <Button
+            block
+            type="submit"
+            color="primary"
+            disabled={loading}
+          >
             회원가입하기
           </Button>
           <Link to="/login">로그인 하러 가기</Link>
@@ -108,12 +115,16 @@ class Page extends PureComponent<ConnectProps, States>  {
       passwordCheck,
     };
 
+    dispatch(setLoading(true));
     await dispatch(register(postData));
+    dispatch(setLoading(false));
     history.push("/login");
     return;
   }
 
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state: StateInterface) => ({
+  loading: state.commonUI.loading,
+});
 export default withRouter(connect(mapStateToProps)(Page) as any);

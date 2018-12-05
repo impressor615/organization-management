@@ -9,4 +9,10 @@ export interface History {
 export interface ConnectProps {
   dispatch?: Dispatch;
   history?: History;
+  loading: boolean;
+}
+
+export interface Action {
+  type: string;
+  payload: any;
 }

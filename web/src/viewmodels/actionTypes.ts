@@ -1,5 +1,6 @@
 // commonUI
 export const CLEAR_ERROR: string = "CLEAR_ERROR";
+export const SET_LOADING: string = "SET_LOADING";
 
 // register
 export const REQ_POST_REGISTER_USER: string = "REQ_POST_REGISTER_USER";

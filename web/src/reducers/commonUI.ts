@@ -1,15 +1,16 @@
+import { Action } from "@/@types/types";
 import {
   CLEAR_ERROR,
+  SET_LOADING,
 } from "@/viewmodels/actionTypes";
 
-interface State {
-  loading: boolean;
-  error: string;
+interface CommonUIAction extends Action {
+  loading?: boolean;
 }
 
-interface Action {
-  type: string;
-  payload: any;
+export interface State {
+  loading: boolean;
+  error: string;
 }
 
 export const initialState: State = {
@@ -17,7 +18,7 @@ export const initialState: State = {
   loading: false,
 };
 
-export default function(state: State = initialState, action: Action) {
+export default function(state: State = initialState, action: CommonUIAction) {
   if (action.type.includes("REQ") && action.type.includes("FAILURE")) {
     return {
       ...state,
@@ -30,6 +31,11 @@ export default function(state: State = initialState, action: Action) {
       return {
         ...state,
         error: "",
+      };
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: action.loading,
       };
     default:
       return state;
