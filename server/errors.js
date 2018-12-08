@@ -5,7 +5,7 @@ module.exports = {
   },
   login_failed: {
     ko: '로그인 정보가 올바르지 않습니다.',
-    en: 'not_authorized',
+    en: 'login failed. email or password is incorrect',
   },
   not_authorized: {
     ko: '로그인이 필요합니다.',

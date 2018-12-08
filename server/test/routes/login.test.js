@@ -8,7 +8,6 @@ const {
 } = chai;
 const { User } = models;
 describe('Register Router', () => {
-  let accessToken;
   before(async () => {
     const res = await chai.request(app)
       .post('/api/register')
@@ -33,7 +32,6 @@ describe('Register Router', () => {
           password: '1234',
         });
 
-      accessToken = res.body.access_token;
       res.body.should.include.keys(['access_token']);
     });
 
@@ -50,29 +48,6 @@ describe('Register Router', () => {
           password: '4321',
         });
       assertError(res.error.text, errors.not_authorized);
-    });
-  });
-
-  describe('all /api', () => {
-    it('should return not_authorized when there is no token', async () => {
-      const res = await chai.request(app).get('/api/dashboards');
-      assertError(res.error.text, errors.not_authorized);
-    });
-
-    it('should return not_authorized when token is invalid', async () => {
-      const res = await chai.request(app)
-        .get('/api/nothing')
-        .set('x-access-token', 'fakeToken');
-
-      assertError(res.error.text, errors.not_authorized);
-    });
-
-    it('should return not_authorized when token is invalid', async () => {
-      const res = await chai.request(app)
-        .get('/api/nothing')
-        .set('x-access-token', accessToken);
-
-      res.error.status.should.be.equal(404);
     });
   });
 });
