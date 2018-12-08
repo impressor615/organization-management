@@ -14,6 +14,7 @@ describe('Register Router', () => {
       .send({
         email: 'admin@orgchart.com',
         password: '1234',
+        company_name: 'org-chart',
       });
 
     res.body.should.include.keys(['_id']);
@@ -23,7 +24,7 @@ describe('Register Router', () => {
     await User.deleteMany();
   });
 
-  describe('GET /api/register', () => {
+  describe('POST /api/login', () => {
     it('should verify user', async () => {
       const res = await chai.request(app)
         .post('/api/login')
@@ -37,7 +38,7 @@ describe('Register Router', () => {
 
     it('should return invalid_route_data when there is no user', async () => {
       const res = await chai.request(app).post('/api/login');
-      assertError(res.error.text, errors.route_invalid_data);
+      assertError(res.error.text, errors.login_failed);
     });
 
     it('should return not_authorized when password is not correct', async () => {
@@ -47,7 +48,7 @@ describe('Register Router', () => {
           email: 'admin@orgchart.com',
           password: '4321',
         });
-      assertError(res.error.text, errors.not_authorized);
+      assertError(res.error.text, errors.login_failed);
     });
   });
 });

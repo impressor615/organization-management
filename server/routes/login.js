@@ -41,7 +41,11 @@ module.exports = (router) => {
   router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
-      sendError({ res, language: req.language });
+      sendError({
+        res,
+        language: req.language,
+        error: errors.login_failed,
+      });
       return;
     }
 

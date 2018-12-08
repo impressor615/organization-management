@@ -13,7 +13,7 @@ describe('Register Router', () => {
     await Company.deleteMany();
   });
 
-  describe('GET /api/register', () => {
+  describe('POST /api/register', () => {
     it('should create user', async () => {
       const res = await chai.request(app)
         .post('/api/register')
