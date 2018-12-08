@@ -1,20 +1,29 @@
 const mongoose = require('mongoose');
+const {
+  schema: departmentSchema,
+} = require('./department');
+const { TIMESTAMPS } = require('../constants/models');
 
 const { Schema } = mongoose;
-const TIMESTAMPS = {
-  timestamps: {
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
+const schema = new Schema({
+  name: {
+    type: String,
+    required: true,
   },
-};
-
-module.exports = (connection) => {
-  const schema = new Schema({
-    name: {
-      type: String,
-      required: true,
+  departments: {
+    type: [departmentSchema],
+    validate: {
+      validator(value) {
+        return this.departments.every(
+          department => department.name !== value.name,
+        );
+      },
+      message: props => `${props.value} is not a valid department`,
     },
-  }, TIMESTAMPS);
+  },
+}, TIMESTAMPS);
 
-  return connection.model('Company', schema);
+module.exports = {
+  schema,
+  createModel: connection => connection.model('Company', schema),
 };

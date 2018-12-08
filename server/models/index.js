@@ -5,23 +5,21 @@ const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
 const createModels = (connection) => {
-  const models = {};
   const files = fs.readdirSync(__dirname);
-
   files.forEach((file) => {
     if (/\.js$/.test(file) && file !== 'index.js') {
-      const model = require(`./${file}`)(connection);
-      models[model.modelName] = model;
+      const { createModel } = require(`./${file}`);
+      createModel(connection);
     }
   });
-
-  return models;
 };
 
 module.exports = (connection = mongoose.connection) => {
-  if (!_.isEmpty(mongoose.models)) {
-    return mongoose.models;
+  const models = connection.models;
+  if (!_.isEmpty(models)) {
+    return models;
   }
 
-  return createModels(connection);
+  createModels(connection);
+  return models;
 };
