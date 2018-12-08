@@ -8,4 +8,5 @@ export {
 
 export {
   setLoading,
+  clearError,
 } from "./commonUI";
