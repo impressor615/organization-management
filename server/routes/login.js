@@ -37,15 +37,6 @@ const issueToken = async (
   })
 );
 
-const verifyToken = async (token, secret) => (
-  new Promise((resolve, reject) => (
-    jwt.verify(token, secret, (err, decoded) => {
-      if (err) reject(err);
-      resolve(decoded);
-    })
-  ))
-);
-
 module.exports = (router) => {
   router.post('/login', async (req, res) => {
     const { email, password } = req.body;
@@ -56,7 +47,11 @@ module.exports = (router) => {
 
     const user = await User.findOne({ email }).lean().exec();
     if (!user) {
-      sendError({ res, language: req.language });
+      sendError({
+        res,
+        language: req.language,
+        error: errors.login_failed,
+      });
       return;
     }
 
@@ -65,7 +60,7 @@ module.exports = (router) => {
       sendError({
         res,
         language: req.language,
-        error: errors.not_authorized,
+        error: errors.login_failed,
       });
       return;
     }
@@ -73,30 +68,5 @@ module.exports = (router) => {
     const secret = req.app.get('jwt-secret');
     const accessToken = await issueToken(user, secret);
     return res.json({ access_token: accessToken });
-  });
-
-  router.all('*', async (req, res, next) => {
-    const token = req.headers['x-access-token'] || req.query.token;
-
-    if (!token) {
-      sendError({
-        res,
-        language: req.language,
-        error: errors.not_authorized,
-      });
-      return;
-    }
-
-    const secret = req.app.get('jwt-secret');
-    try {
-      await verifyToken(token, secret);
-      next();
-    } catch (err) {
-      sendError({
-        res,
-        language: req.language,
-        error: errors.not_authorized,
-      });
-    }
   });
 };
