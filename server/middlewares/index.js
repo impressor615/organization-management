@@ -2,6 +2,7 @@
 const bodyParser = require('body-parser');
 
 const parseLanguage = require('./parseLanguage');
+const auth = require('./auth');
 
 module.exports = (app) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -10,4 +11,5 @@ module.exports = (app) => {
   }
   app.use(bodyParser.json());
   app.use(parseLanguage);
+  app.use(/^\/api\/departments.*$/, auth);
 };
