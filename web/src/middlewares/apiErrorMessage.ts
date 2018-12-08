@@ -8,7 +8,7 @@ const apiErrorMessage = () => (next: Next) => (action: any) => {
   const { payload } = action;
   if (payload && payload.name === "ApiError" && payload.response) {
     const { response } = payload;
-    payload.message = response.description || response.error || payload.message;
+    payload.message = response.message || payload.message;
   }
 
   return next(action);
