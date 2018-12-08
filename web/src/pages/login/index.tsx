@@ -89,7 +89,7 @@ class Page extends PureComponent<ConnectProps, States> {
       return;
     }
     const accessToken = result.payload.access_token;
-    sessionStorage.setItem("access_token", accessToken);
+    localStorage.setItem("__oc-chart", JSON.stringify({ access_token: accessToken }));
     history.push("/dashboard");
     return;
   }
