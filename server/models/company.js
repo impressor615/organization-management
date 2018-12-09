@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const mongoose = require('mongoose');
 const {
   schema: departmentSchema,
@@ -13,10 +14,10 @@ const schema = new Schema({
   departments: {
     type: [departmentSchema],
     validate: {
-      validator(value) {
-        return this.departments.every(
-          department => department.name !== value.name,
-        );
+      validator(v) {
+        const test = Object.entries(_.groupBy(v, 'name'));
+        console.log(test);
+        return Object.entries(_.groupBy(v, 'name')).every(item => (item[1].length === 1));
       },
       message: props => `${props.value} is not a valid department`,
     },

@@ -19,12 +19,16 @@ module.exports = (router) => {
       return;
     }
 
-    const theCompany = await Company.findById(company_id).exec();
-    theCompany.departments.push({ name, parent_id });
-    const result = await theCompany.save();
-    const theDepartment = result.toObject().departments
-      .find(department => department.name === name);
-    res.json({ _id: theDepartment._id.toString() });
+    try {
+      const theCompany = await Company.findById(company_id).exec();
+      theCompany.departments.push({ name, parent_id });
+      const result = await theCompany.save();
+      const theDepartment = result.toObject().departments
+        .find(department => department.name === name);
+      res.json({ _id: theDepartment._id.toString() });
+    } catch (err) {
+      sendError({ res, language: req.language });
+    }
   });
 
   router.get('/company/departments', async (req, res) => {
