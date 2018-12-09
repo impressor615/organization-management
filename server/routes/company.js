@@ -2,7 +2,7 @@ const { Company } = require('../models')();
 const { sendError } = require('../utils/routeUtils');
 
 module.exports = (router) => {
-  router.post('/departments', async (req, res) => {
+  router.post('/company/departments', async (req, res) => {
     const { user, body } = req;
     const { name, parent_id } = body;
     const { company_id } = user;
@@ -20,7 +20,7 @@ module.exports = (router) => {
     res.json({ _id: theDepartment._id.toString() });
   });
 
-  router.get('/departments', async (req, res) => {
+  router.get('/company/departments', async (req, res) => {
     const { user } = req;
     const { company_id } = user;
 
@@ -28,7 +28,7 @@ module.exports = (router) => {
     res.json(theCompany.departments);
   });
 
-  router.put('/departments/:id', async (req, res) => {
+  router.put('/company/departments/:id', async (req, res) => {
     const { user, body } = req;
     const { name, parent_id } = body;
     const { company_id } = user;
@@ -48,7 +48,7 @@ module.exports = (router) => {
     res.json({});
   });
 
-  router.delete('/departments/:id', async (req, res) => {
+  router.delete('/company/departments/:id', async (req, res) => {
     const { user } = req;
     const { company_id } = user;
 

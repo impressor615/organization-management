@@ -11,5 +11,5 @@ module.exports = (app) => {
   }
   app.use(bodyParser.json());
   app.use(parseLanguage);
-  app.use(/^\/api\/departments.*$/, auth);
+  app.use(/^\/api\/company.*$/, auth);
 };

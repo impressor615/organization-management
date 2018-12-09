@@ -38,10 +38,10 @@ describe('Department Router', () => {
     await Department.deleteMany();
   });
 
-  describe('POST /api/departments', () => {
+  describe('POST /api/company/departments', () => {
     it('return route_invalid_data when there is no required field', async () => {
       const res = await chai.request(app)
-        .post('/api/departments')
+        .post('/api/company/departments')
         .set('x-access-token', accessToken);
 
       assertError(res.error.text, errors.route_invalid_data);
@@ -49,7 +49,7 @@ describe('Department Router', () => {
 
     it('should create department', async () => {
       const res = await chai.request(app)
-        .post('/api/departments')
+        .post('/api/company/departments')
         .set('x-access-token', accessToken)
         .send({ name: 'department1' });
 
@@ -58,10 +58,10 @@ describe('Department Router', () => {
     });
   });
 
-  describe('GET /api/departments', () => {
+  describe('GET /api/company/departments', () => {
     it('should return the company\'s departments', async () => {
       const res = await chai.request(app)
-        .get('/api/departments')
+        .get('/api/company/departments')
         .set('x-access-token', accessToken);
 
       res.body.forEach((department) => {
@@ -70,10 +70,10 @@ describe('Department Router', () => {
     });
   });
 
-  describe('PUT /api/departments/:id', () => {
+  describe('PUT /api/company/departments/:id', () => {
     it('return route_invalid_data when there is no required field', async () => {
       const res = await chai.request(app)
-        .put(`/api/departments/${departmentId}`)
+        .put(`/api/company/departments/${departmentId}`)
         .set('x-access-token', accessToken);
 
       assertError(res.error.text, errors.route_invalid_data);
@@ -81,7 +81,7 @@ describe('Department Router', () => {
 
     it('should update department', async () => {
       const res = await chai.request(app)
-        .put(`/api/departments/${departmentId}`)
+        .put(`/api/company/departments/${departmentId}`)
         .set('x-access-token', accessToken)
         .send({ name: 'department2' });
 
@@ -89,10 +89,10 @@ describe('Department Router', () => {
     });
   });
 
-  describe('DELETE /api/departments/:id', () => {
+  describe('DELETE /api/company/departments/:id', () => {
     it('should delete department', async () => {
       const res = await chai.request(app)
-        .delete(`/api/departments/${departmentId}`)
+        .delete(`/api/company/departments/${departmentId}`)
         .set('x-access-token', accessToken);
 
       res.body.should.be.empty;
