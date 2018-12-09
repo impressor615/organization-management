@@ -38,6 +38,16 @@ describe('Department Router', () => {
     await Department.deleteMany();
   });
 
+  describe('GET /api/company', () => {
+    it('should return the company\'s information', async () => {
+      const res = await chai.request(app)
+        .get('/api/company')
+        .set('x-access-token', accessToken);
+
+      res.body.should.include.keys(['_id', 'name', 'created_at', 'updated_at']);
+    });
+  });
+
   describe('POST /api/company/departments', () => {
     it('return route_invalid_data when there is no required field', async () => {
       const res = await chai.request(app)

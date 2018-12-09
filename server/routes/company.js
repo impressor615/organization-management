@@ -2,6 +2,13 @@ const { Company } = require('../models')();
 const { sendError } = require('../utils/routeUtils');
 
 module.exports = (router) => {
+  router.get('/company', async (req, res) => {
+    const { user } = req;
+    const { company_id } = user;
+    const theCompany = await Company.findById(company_id).lean().exec();
+    res.json(theCompany);
+  });
+
   router.post('/company/departments', async (req, res) => {
     const { user, body } = req;
     const { name, parent_id } = body;
