@@ -1,0 +1,26 @@
+$basic-color: white;
+$active-color: #62666b;
+
+.icon-link {
+  display: inline-block;
+
+  text-align: center;
+  color: $basic-color;
+  font-weight: bold;
+
+  > svg {
+    margin-bottom: 5px;
+  }
+
+  &:hover {
+    text-decoration: none;
+
+    color: $basic-color;
+    opacity: 0.7;
+  }
+
+  &.active {
+    color: $active-color;
+    background: $basic-color;
+  }
+}
