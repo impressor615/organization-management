@@ -12,6 +12,7 @@ const apiJsonBody = () => (next: Next) => (action: any) => {
   const { body } = newAction[RSAA];
   if (isPlainObject(body) || body instanceof Array) {
     newAction[RSAA].headers = {
+      ...newAction[RSAA].headers,
       "Content-Type": "application/json",
     };
     newAction[RSAA].body = JSON.stringify(body);

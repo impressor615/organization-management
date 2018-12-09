@@ -4,10 +4,11 @@ import logger from "redux-logger";
 import thunk from "redux-thunk";
 
 import apiErrorMessage from "@/middlewares/apiErrorMessage";
+import apiHeaders from "@/middlewares/apiHeaders";
 import apiJsonBody from "@/middlewares/apiJsonBody";
 import reducer from "@/reducers";
 
-const middlewares = [thunk, apiJsonBody, apiMiddleware, apiErrorMessage];
+const middlewares = [thunk, apiHeaders, apiJsonBody, apiMiddleware, apiErrorMessage];
 if (process.env.NODE_ENV !== "production") {
   middlewares.push(logger);
 }
