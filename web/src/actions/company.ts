@@ -5,6 +5,9 @@ import {
   REQ_GET_COMPANY,
   REQ_GET_COMPANY_FAILURE,
   REQ_GET_COMPANY_SUCCESS,
+  REQ_POST_DEPT,
+  REQ_POST_DEPT_FAILURE,
+  REQ_POST_DEPT_SUCCESS,
 } from "@/viewmodels/actionTypes";
 
 export const getCompany = () => (dispatch: Dispatch) => (
@@ -16,6 +19,24 @@ export const getCompany = () => (dispatch: Dispatch) => (
         REQ_GET_COMPANY,
         REQ_GET_COMPANY_SUCCESS,
         REQ_GET_COMPANY_FAILURE,
+      ],
+    },
+  })
+);
+
+export const createDept = (data: object) => (dispatch: Dispatch) => (
+  dispatch({
+    [RSAA]: {
+      body: data,
+      endpoint: "/api/company/departments",
+      method: "POST",
+      types: [
+        REQ_POST_DEPT,
+        {
+          meta: data,
+          type: REQ_POST_DEPT_SUCCESS,
+        },
+        REQ_POST_DEPT_FAILURE,
       ],
     },
   })

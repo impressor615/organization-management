@@ -1,6 +1,7 @@
 import { Action } from "@/@types/types";
 import {
   REQ_GET_COMPANY_SUCCESS,
+  REQ_POST_DEPT_SUCCESS,
 } from "@/viewmodels/actionTypes";
 
 export interface State {
@@ -19,6 +20,14 @@ export default function(state: State = initialState, action: Action) {
       return {
         ...state,
         ...action.payload,
+      };
+
+    case REQ_POST_DEPT_SUCCESS:
+      const newDepts = [...state.departments];
+      newDepts.push({ ...action.meta, ...action.payload });
+      return {
+        ...state,
+        departments: newDepts,
       };
     default:
       return state;

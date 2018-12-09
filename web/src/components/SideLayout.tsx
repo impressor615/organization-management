@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import { ConnectProps } from "@/@types/types";
 import IconLink from "@/components/IconLink";
 import SideBar from "@/components/SideBar";
+import SideMenus from "@/components/SideMenus";
 
 interface Props extends ConnectProps {
   children: React.ReactNode;
@@ -15,6 +16,7 @@ const SideLayout = ({ children, location }: Props) => {
       <SideBar>
         <IconLink text="조직도" icon="sitemap" to="/dashboard" active={location.pathname === "/dashboard"} />
       </SideBar>
+      <SideMenus />
       <div className="app-container">
         { children }
       </div>

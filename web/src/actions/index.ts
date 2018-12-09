@@ -13,4 +13,5 @@ export {
 
 export {
   getCompany,
+  createDept,
 } from "./company";
