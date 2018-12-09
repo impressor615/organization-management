@@ -27,6 +27,14 @@ class Page extends PureComponent<ConnectProps, States> {
     password: "",
   };
 
+  public componentDidMount() {
+    const { history, error } = this.props;
+    const { access_token }: { access_token: string } = JSON.parse(localStorage.getItem("__oc-chart")) || {};
+    if (access_token && !error) {
+      history.replace("/dashboard");
+    }
+  }
+
   public render() {
     const { email, password } = this.state;
     const { loading } = this.props;
@@ -96,6 +104,7 @@ class Page extends PureComponent<ConnectProps, States> {
 }
 
 const mapStateToProps = (state: StateInterface) => ({
+  error: state.commonUI.error,
   loading: state.commonUI.loading,
 });
 export default withRouter(connect(mapStateToProps)(Page) as any);

@@ -19,7 +19,8 @@ export interface History {
 export interface ConnectProps {
   dispatch?: Dispatch;
   history?: History;
-  loading: boolean;
+  loading?: boolean;
+  error?: string;
 }
 
 export interface Action {
