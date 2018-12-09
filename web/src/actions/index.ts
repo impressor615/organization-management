@@ -10,3 +10,7 @@ export {
   setLoading,
   clearError,
 } from "./commonUI";
+
+export {
+  getCompany,
+} from "./company";
