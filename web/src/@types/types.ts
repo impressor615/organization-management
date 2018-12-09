@@ -16,11 +16,16 @@ export interface History {
   replace: (arg1: string) => void;
 }
 
+export interface Location {
+  pathname: string;
+}
+
 export interface ConnectProps {
   dispatch?: Dispatch;
   history?: History;
   loading?: boolean;
   error?: string;
+  location?: Location;
 }
 
 export interface Action {
