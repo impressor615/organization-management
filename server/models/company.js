@@ -15,8 +15,6 @@ const schema = new Schema({
     type: [departmentSchema],
     validate: {
       validator(v) {
-        const test = Object.entries(_.groupBy(v, 'name'));
-        console.log(test);
         return Object.entries(_.groupBy(v, 'name')).every(item => (item[1].length === 1));
       },
       message: props => `${props.value} is not a valid department`,
