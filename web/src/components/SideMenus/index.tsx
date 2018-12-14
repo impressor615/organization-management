@@ -256,11 +256,17 @@ class SideMenus extends PureComponent<Props, States> {
     });
 
     const ddItems = deptItems.reduce((result, item): [{ _id: string; name: string; }?] => {
-      const newItem = { ...item };
-      const collapseItems = newItem.collapseItems || [];
+      const newItem = { ...item, collapseItems: [...item.collapseItems] || [] };
+      const collapseItems = newItem.collapseItems;
       collapseItems.forEach((collapseItem: { _id: string; name: string; collapseItems?: any; }) => {
-        delete collapseItem.collapseItems;
-        result.push(collapseItem);
+        const newCollapseItem = {
+          ...collapseItem,
+          collapseItems: {
+            ...collapseItem.collapseItems || [],
+          },
+        };
+        delete newCollapseItem.collapseItems;
+        result.push(newCollapseItem);
       });
       delete newItem.collapseItems;
       result.unshift(newItem);
