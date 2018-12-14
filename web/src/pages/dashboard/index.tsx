@@ -1,9 +1,12 @@
+import "@/assets/scss/pages/_dashboard.scss";
+
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import { ConnectProps, DispatchResult } from "@/@types/types";
 import { getCompany } from "@/actions";
+import SideLayout from "@/components/SideLayout";
 import { StateInterface } from "@/reducers";
 
 export interface Props extends ConnectProps {
@@ -21,9 +24,10 @@ class Page extends PureComponent<Props, {}> {
   }
 
   public render() {
-    const { name } = this.props;
     return (
-      <div>{`${name} dashboard`}</div>
+      <SideLayout>
+        dashboard
+      </SideLayout>
     );
   }
 }
