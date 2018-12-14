@@ -1,4 +1,5 @@
 $menus-width: 250px;
+$hover-color: #62666b;
 
 .side-menus {
   position: fixed;
@@ -30,5 +31,38 @@ $menus-width: 250px;
 
   .side-menus-header button:focus {
     box-shadow: none;
+  }
+
+  .side-menu-items {
+    padding: 10px;
+  }
+
+  .dept-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-radius: 0;
+
+    text-align: left;
+  }
+
+  .dept-item:focus {
+    box-shadow: none;
+  }
+
+  .dept-item:hover {
+    background: $hover-color;
+    color: white;
+  }
+
+  .dept-item.depth-2 {
+    width: 90%;
+    margin-left: auto;
+  }
+
+  .dept-item.depth-3 {
+    width: 80%;
+    margin-left: auto;
   }
 }

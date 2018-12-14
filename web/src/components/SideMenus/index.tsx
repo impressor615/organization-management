@@ -1,10 +1,12 @@
 import "./_side-menus.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { PureComponent } from "react";
+import groupBy from "lodash/groupBy";
+import React, { Fragment, PureComponent } from "react";
 import { connect } from "react-redux";
 import {
   Button,
+  Collapse,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -41,11 +43,63 @@ const MenuHeader = ({ text, onClick }: HeaderProps)  => (
   </div>
 );
 
+const DeptItem = ({ name, isParent, depth = 1 }: { name: string; isParent?: boolean; depth?: number; }) => (
+  <button className={`btn dept-item depth-${depth}`}>
+    <span>{ name }</span>
+    {
+      isParent ? (
+        <Fragment>
+          <FontAwesomeIcon icon="caret-down" size="lg" />
+        </Fragment>
+      ) : null
+    }
+  </button>
+);
+
+interface DeptItems {
+  _id?: string;
+  depth?: number;
+  name: string;
+  collapseItems?: any;
+}
+
+const DeptItems = ({ name, collapseItems, depth = 1 }: DeptItems) => (
+  <Fragment>
+    <DeptItem name={name} depth={depth} isParent />
+    <Collapse isOpen>
+      {
+        collapseItems.map((item: { _id: string; name: string; }) => (
+          <DeptItem key={item._id} name={item.name} depth={depth + 1} />
+        ))
+      }
+    </Collapse>
+  </Fragment>
+);
+
+const DeptsTree = ({ name, collapseItems, depth = 1 }: DeptItems) => (
+  <Fragment>
+    <DeptItem name={name} depth={depth} isParent />
+    <Collapse isOpen>
+      {
+        collapseItems.map((item: { _id: string; name: string; collapseItems?: any; }) => (
+          <Fragment key={item._id}>
+            {
+              item.collapseItems && item.collapseItems.length !== 0
+                ? <DeptItems name={item.name} depth={depth + 1} collapseItems={item.collapseItems} />
+                : <DeptItem name={item.name} depth={depth + 1} />
+            }
+          </Fragment>
+        ))
+      }
+    </Collapse>
+  </Fragment>
+);
+
 interface DeptModalProps {
   items: [{
     _id: string;
     name: string;
-  }];
+  }?];
   ddIsOpen: boolean;
   isOpen: boolean;
   dept: string;
@@ -132,10 +186,10 @@ const DeptModal = ({
 );
 
 interface Props extends ConnectProps {
-  children?: React.ReactNode;
   departments: [{
     _id: string;
     name: string;
+    collapseItems?: any;
   }];
 }
 
@@ -155,14 +209,16 @@ class SideMenus extends PureComponent<Props, States> {
   };
 
   public render() {
-    const { children, departments } = this.props;
     const { isOpen, ddIsOpen, dept, parentDept } = this.state;
+    const { deptItems, ddItems } = this.buildData();
     return (
       <div className="side-menus">
         <MenuHeader text="조직도" onClick={this.onModalToggle} />
-        {children}
+        <div className="side-menu-items">
+          { this.renderDepts(deptItems) }
+        </div>
         <DeptModal
-          items={departments}
+          items={ddItems}
           isOpen={isOpen}
           ddIsOpen={ddIsOpen}
           dept={dept}
@@ -175,6 +231,67 @@ class SideMenus extends PureComponent<Props, States> {
           onSubmit={this.onSubmit}
         />
       </div>
+    );
+  }
+
+  private buildData = (): { deptItems: DeptItems[], ddItems: [{ _id: string; name: string; }?] } => {
+    const { departments } = this.props;
+    const groupedDepts = groupBy([...departments], "parent_id");
+    const deptItems = groupedDepts.null ? [...groupedDepts.null] : [];
+    Object.keys(groupedDepts).forEach((parentKey) => {
+      if (parentKey === "null") {
+        return;
+      }
+
+      const parent = deptItems.find((item) => item._id === parentKey);
+      if (parent) {
+        parent.collapseItems = [...groupedDepts[parentKey]];
+        return;
+      }
+
+      const collapsedParent = deptItems.find((item) => (
+        item.collapseItems.find((collapseItem: { _id: string; }) => collapseItem._id === parentKey)
+      )).collapseItems.find((item: { _id: string; }) => item._id === parentKey);
+      collapsedParent.collapseItems = [...groupedDepts[parentKey]];
+    });
+
+    const ddItems = deptItems.reduce((result, item): [{ _id: string; name: string; }?] => {
+      const newItem = { ...item };
+      const collapseItems = newItem.collapseItems || [];
+      collapseItems.forEach((collapseItem: { _id: string; name: string; collapseItems?: any; }) => {
+        delete collapseItem.collapseItems;
+        result.push(collapseItem);
+      });
+      delete newItem.collapseItems;
+      result.unshift(newItem);
+      return result;
+    }, [] as [{ _id: string; name: string; }?]);
+
+    return {
+      ddItems,
+      deptItems,
+    };
+  }
+
+  private renderDepts = (data: DeptItems[]): React.ReactNode => {
+    return (
+      <Fragment>
+        {
+          data.map((dept) => {
+            if (dept.collapseItems && dept.collapseItems.length !== 0) {
+              return (
+                <DeptsTree
+                  key={dept._id}
+                  name={dept.name}
+                  collapseItems={dept.collapseItems}
+                />
+              );
+            }
+
+            return <DeptItem key={dept._id} name={dept.name} />;
+          })
+        }
+      </Fragment>
     );
   }
 
