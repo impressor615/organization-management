@@ -1,6 +1,7 @@
 import "./_side-menus.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import cloneDeep from "lodash/cloneDeep";
 import groupBy from "lodash/groupBy";
 import React, { Fragment, PureComponent } from "react";
 import { connect } from "react-redux";
@@ -256,17 +257,11 @@ class SideMenus extends PureComponent<Props, States> {
     });
 
     const ddItems = deptItems.reduce((result, item): [{ _id: string; name: string; }?] => {
-      const newItem = { ...item, collapseItems: [...item.collapseItems] || [] };
+      const newItem = cloneDeep(item);
       const collapseItems = newItem.collapseItems;
       collapseItems.forEach((collapseItem: { _id: string; name: string; collapseItems?: any; }) => {
-        const newCollapseItem = {
-          ...collapseItem,
-          collapseItems: {
-            ...collapseItem.collapseItems || [],
-          },
-        };
-        delete newCollapseItem.collapseItems;
-        result.push(newCollapseItem);
+        delete collapseItem.collapseItems;
+        result.push(collapseItem);
       });
       delete newItem.collapseItems;
       result.unshift(newItem);
