@@ -34,6 +34,11 @@ const schema = new Schema({
       message: props => `${props.value} is not a valid authority`,
     },
   },
+  name: String,
+  phone: String,
+  profile: String,
+  // TODO: need to divide into separate model
+  position: String,
 }, TIMESTAMPS);
 
 module.exports = {
