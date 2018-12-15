@@ -7,7 +7,7 @@ const {
   errors,
 } = chai;
 const { User, Company, Department } = models;
-describe('Department Router', () => {
+describe('Company Router', () => {
   let accessToken;
   let departmentId;
   before(async () => {
