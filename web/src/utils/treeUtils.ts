@@ -44,4 +44,33 @@ export const getDepartments = (data: [DeptProps?]) => {
   }, [] as [DeptProps?]);
 };
 
-export const getChildren = (data: [DeptProps?]) => ([] as [DeptProps?]);
+export const getChildren = (data: [DeptProps?], targetId: string) => {
+  const result = [targetId];
+  if (data.length === 0) {
+    return result;
+  }
+
+  let theDept = data.find((dept: DeptProps) => (dept._id === targetId));
+  if (!theDept) {
+    const theCollapsedDept = data.find((dept: DeptProps) => (
+      (dept.collapseItems || []).find((collapsedDept: DeptProps) => (collapsedDept._id === targetId))
+    ));
+
+    if (theCollapsedDept) {
+      theDept = theCollapsedDept.collapseItems.find((dept: DeptProps) => dept._id === targetId);
+    }
+  }
+
+  if (theDept) {
+    (theDept.collapseItems || []).forEach((dept: DeptProps) => {
+      result.push(dept._id);
+      if (dept.collapseItems && dept.collapseItems.length !== 0) {
+        dept.collapseItems.forEach((collapsedDept: DeptProps) => {
+          result.push(collapsedDept._id);
+        });
+      }
+    });
+  }
+
+  return result;
+};
