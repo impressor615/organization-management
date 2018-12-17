@@ -20,12 +20,17 @@ export interface Location {
   pathname: string;
 }
 
+export interface Match {
+  params: { id?: string; };
+}
+
 export interface ConnectProps {
   dispatch?: Dispatch;
   history?: History;
   loading?: boolean;
   error?: string;
   location?: Location;
+  match?: Match;
 }
 
 export interface Action {

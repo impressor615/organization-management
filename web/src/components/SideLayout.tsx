@@ -14,7 +14,7 @@ const SideLayout = ({ children, location }: Props) => {
   return (
     <Fragment>
       <SideBar>
-        <IconLink text="조직도" icon="sitemap" to="/dashboard" active={location.pathname === "/dashboard"} />
+        <IconLink text="조직도" icon="sitemap" to="/dashboard" active={/dashboard/.test(location.pathname)} />
       </SideBar>
       <SideMenus />
       <div className="app-container">

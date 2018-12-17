@@ -1,8 +1,10 @@
 import "./_side-menus.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classnames from "classnames";
 import React, { Fragment, PureComponent } from "react";
 import { connect } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
 import {
   Button,
   Collapse,
@@ -44,47 +46,66 @@ const MenuHeader = ({ text, onClick }: HeaderProps)  => (
 );
 
 interface DeptItems extends DeptProps {
+  curId?: string;
   depth?: number;
   isParent?: boolean;
 }
 
-const DeptItem = ({ name, isParent, depth = 1 }: DeptItems) => (
-  <button className={`btn dept-item depth-${depth}`}>
+const DeptItem = ({ _id, curId, name, isParent, depth = 1 }: DeptItems) => (
+  <Link
+    to={`/dashboard/${_id}`}
+    className={classnames(
+      `btn dept-item depth-${depth}`,
+      { active: _id === curId },
+    )}
+  >
     <span>{ name }</span>
     {
       isParent ? (
         <Fragment>
-          <FontAwesomeIcon icon="caret-down" size="lg" />
+          {
+            _id === curId
+              ? <FontAwesomeIcon icon="caret-up" size="lg" />
+              : <FontAwesomeIcon icon="caret-down" size="lg" />
+          }
         </Fragment>
       ) : null
     }
-  </button>
+  </Link>
 );
 
-const DeptItems = ({ name, collapseItems, depth = 1 }: DeptItems) => (
+const DeptItems = ({ _id, curId, name, collapseItems, depth = 1 }: DeptItems) => (
   <Fragment>
-    <DeptItem name={name} depth={depth} isParent />
+    <DeptItem _id={_id} curId={curId} name={name} depth={depth} isParent />
     <Collapse isOpen>
       {
         collapseItems.map((item: DeptItems) => (
-          <DeptItem key={item._id} name={item.name} depth={depth + 1} />
+          <DeptItem key={item._id} curId={curId} name={item.name} depth={depth + 1} _id={item._id} />
         ))
       }
     </Collapse>
   </Fragment>
 );
 
-const DeptsTree = ({ name, collapseItems, depth = 1 }: DeptItems) => (
+const DeptsTree = ({ _id, curId, name, collapseItems, depth = 1 }: DeptItems) => (
   <Fragment>
-    <DeptItem name={name} depth={depth} isParent />
+    <DeptItem _id={_id} curId={curId} name={name} depth={depth} isParent />
     <Collapse isOpen>
       {
         collapseItems.map((item: { _id: string; name: string; collapseItems?: any; }) => (
           <Fragment key={item._id}>
             {
               item.collapseItems && item.collapseItems.length !== 0
-                ? <DeptItems name={item.name} depth={depth + 1} collapseItems={item.collapseItems} />
-                : <DeptItem name={item.name} depth={depth + 1} />
+                ? (
+                  <DeptItems
+                    _id={item._id}
+                    curId={curId}
+                    name={item.name}
+                    depth={depth + 1}
+                    collapseItems={item.collapseItems}
+                  />
+                )
+                : <DeptItem _id={item._id} curId={curId} name={item.name} depth={depth + 1} />
             }
           </Fragment>
         ))
@@ -202,12 +223,12 @@ class SideMenus extends PureComponent<Props, States> {
 
   public render() {
     const { isOpen, ddIsOpen, dept, parentDept } = this.state;
-    const { parentDepts, deptsTree } = this.props;
+    const { parentDepts, deptsTree, match } = this.props;
     return (
       <div className="side-menus">
         <MenuHeader text="조직도" onClick={this.onModalToggle} />
         <div className="side-menu-items">
-          { this.renderDepts(deptsTree) }
+          { this.renderDepts(deptsTree, match.params.id) }
         </div>
         <DeptModal
           items={parentDepts}
@@ -226,7 +247,7 @@ class SideMenus extends PureComponent<Props, States> {
     );
   }
 
-  private renderDepts = (data: DeptItems[]): React.ReactNode => {
+  private renderDepts = (data: DeptItems[], curId: string): React.ReactNode => {
     return (
       <Fragment>
         {
@@ -234,6 +255,8 @@ class SideMenus extends PureComponent<Props, States> {
             if (dept.collapseItems && dept.collapseItems.length !== 0) {
               return (
                 <DeptsTree
+                  _id={dept._id}
+                  curId={curId}
                   key={dept._id}
                   name={dept.name}
                   collapseItems={dept.collapseItems}
@@ -241,7 +264,12 @@ class SideMenus extends PureComponent<Props, States> {
               );
             }
 
-            return <DeptItem key={dept._id} name={dept.name} />;
+            return <DeptItem
+              key={dept._id}
+              name={dept.name}
+              _id={dept._id}
+              curId={curId}
+            />;
           })
         }
       </Fragment>
@@ -301,4 +329,4 @@ const mapStateToProps = (state: StateInterface) => ({
   deptsTree: state.company.depts_tree,
   parentDepts: state.company.parent_depts,
 });
-export default connect(mapStateToProps)(SideMenus);
+export default withRouter(connect(mapStateToProps)(SideMenus) as any);

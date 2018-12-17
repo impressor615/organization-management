@@ -45,14 +45,21 @@ $hover-color: #62666b;
     border-radius: 0;
 
     text-align: left;
+    color: black;
   }
 
   .dept-item:focus {
     box-shadow: none;
   }
 
+  .dept-item.active {
+    background: $hover-color;
+    color: white;
+  }
+
   .dept-item:hover {
     background: $hover-color;
+    opacity: 0.8;
     color: white;
   }
 
