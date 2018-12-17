@@ -81,14 +81,6 @@ describe('User Router', () => {
   });
 
   describe('GET /api/users', () => {
-    it('should return route_invalid_data when dept_ids which is not array is provided', async () => {
-      const res = await chai.request(app)
-        .get(`/api/users?dept_ids=${departmentId}`)
-        .set('x-access-token', accessToken);
-
-      assertError(res.error.text, errors.route_invalid_data);
-    });
-
     it('should return users list beloing to the department', async () => {
       const res = await chai.request(app)
         .get(`/api/users?dept_ids[0]=${departmentId}`)

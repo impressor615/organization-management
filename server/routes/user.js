@@ -1,4 +1,4 @@
-const { User } = require('../models')();
+const { User, Company } = require('../models')();
 const { not_authorized } = require('../errors');
 const { sendError } = require('../utils/routeUtils');
 const { generatePassword } = require('../utils/pwdUtils');
@@ -48,19 +48,19 @@ module.exports = (router) => {
     }
   });
 
-  // TODO: apply pagiantion later
+  // TODO: apply pagiantion and filter later
   router.get('/users', async (req, res) => {
     const { query, user } = req;
-    const { dept_ids } = query;
+    let { dept_ids = [] } = query;
 
     if (user.authority !== AUTHORITY.admin) {
       sendError({ res, language: req.language, error: not_authorized });
       return;
     }
 
-    if (!(dept_ids instanceof Array)) {
-      sendError({ res, language: req.language });
-      return;
+    if (dept_ids.length === 0) {
+      const departments = await Company.findById(user.company_id).lean().exec().departments || [];
+      dept_ids = departments.map(dept => dept._id.toString());
     }
 
     const condition = {
