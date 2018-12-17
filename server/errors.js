@@ -8,7 +8,7 @@ module.exports = {
     en: 'login failed. email or password is incorrect',
   },
   not_authorized: {
-    ko: '로그인이 필요합니다.',
+    ko: '권한이 필요합니다.',
     en: 'not_authorized',
   },
 };
