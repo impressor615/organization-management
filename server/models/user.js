@@ -36,6 +36,8 @@ const schema = new Schema({
   },
   name: String,
   phone: String,
+  // TODO: after image upload functions is compeleted
+  // TODO: lets working on later
   profile: String,
   // TODO: need to divide into separate model
   position: String,
