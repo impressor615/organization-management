@@ -258,7 +258,7 @@ class SideMenus extends PureComponent<Props, States> {
 
     const ddItems = deptItems.reduce((result, item): [{ _id: string; name: string; }?] => {
       const newItem = cloneDeep(item);
-      const collapseItems = newItem.collapseItems;
+      const collapseItems = newItem.collapseItems || [];
       collapseItems.forEach((collapseItem: { _id: string; name: string; collapseItems?: any; }) => {
         delete collapseItem.collapseItems;
         result.push(collapseItem);
