@@ -68,7 +68,7 @@ module.exports = (router) => {
         $in: dept_ids,
       },
     };
-    const users = await User.find(condition).lean().exec();
+    const users = await User.find(condition, '-password -salt').lean().exec();
     res.json(users);
   });
 
