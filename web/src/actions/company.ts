@@ -8,6 +8,9 @@ import {
   REQ_POST_DEPT,
   REQ_POST_DEPT_FAILURE,
   REQ_POST_DEPT_SUCCESS,
+  REQ_POST_USER,
+  REQ_POST_USER_FAILURE,
+  REQ_POST_USER_SUCCESS,
 } from "@/viewmodels/actionTypes";
 
 export const getCompany = () => (dispatch: Dispatch) => (
@@ -37,6 +40,24 @@ export const createDept = (data: object) => (dispatch: Dispatch) => (
           type: REQ_POST_DEPT_SUCCESS,
         },
         REQ_POST_DEPT_FAILURE,
+      ],
+    },
+  })
+);
+
+export const createUser = (data: object) => (dispatch: Dispatch) => (
+  dispatch({
+    [RSAA]: {
+      body: data,
+      endpoint: "/api/users",
+      method: "POST",
+      types: [
+        REQ_POST_USER,
+        {
+          meta: data,
+          type: REQ_POST_USER_SUCCESS,
+        },
+        REQ_POST_USER_FAILURE,
       ],
     },
   })

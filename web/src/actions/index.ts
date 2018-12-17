@@ -14,4 +14,5 @@ export {
 export {
   getCompany,
   createDept,
+  createUser,
 } from "./company";

@@ -1,4 +1,36 @@
 .dashboard {
-  width: 100%;
-  height: 100%;
+  margin-left: 320px;
+
+  .dashboard-controls {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 20px 0;
+  }
+
+  .dashboard-controls .form-group {
+    margin-bottom: 0;
+  }
+
+  .dashboard-controls-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .dashboard-controls-wrapper > *:first-child {
+    margin-right: 10px;
+  }
+
+  .dashboard-controls .add-member-wrapper {
+    position: relative;
+  }
+
+  .dashboard-controls .add-member-wrapper > span {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    color: black;
+  }
 }

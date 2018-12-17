@@ -19,3 +19,6 @@ export const REQ_GET_COMPANY_FAILURE: string = "REQ_GET_COMPANY_FAILURE";
 export const REQ_POST_DEPT: string = "REQ_POST_DEPT";
 export const REQ_POST_DEPT_SUCCESS: string = "REQ_POST_DEPT_SUCCESS";
 export const REQ_POST_DEPT_FAILURE: string = "REQ_POST_DEPT_FAILURE";
+export const REQ_POST_USER: string = "REQ_POST_USER";
+export const REQ_POST_USER_SUCCESS: string = "REQ_POST_USER_SUCCESS";
+export const REQ_POST_USER_FAILURE: string = "REQ_POST_USER_FAILURE";
