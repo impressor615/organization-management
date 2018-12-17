@@ -9,6 +9,7 @@ import {
   DropdownMenu,
   DropdownToggle,
   Form,
+  FormFeedback,
   FormGroup,
   Input,
   InputGroup,
@@ -23,7 +24,7 @@ import {
 import { ConnectProps, DispatchResult } from "@/@types/types";
 import { createUser, getUsers } from "@/actions";
 import { StateInterface } from "@/reducers";
-import { getChildren } from "@/utils/treeUtils";
+import { DeptProps, getChildren } from "@/utils/treeUtils";
 
 interface SearchProps {
   type: string;
@@ -101,6 +102,7 @@ const TypeDropdown = ({
 );
 
 interface AddMemberProps {
+  currentDept: DeptProps;
   isOpen: boolean;
   name: string;
   position: string;
@@ -113,6 +115,7 @@ interface AddMemberProps {
 }
 
 const AddMember = ({
+  currentDept,
   isOpen,
   name,
   position,
@@ -141,20 +144,25 @@ const AddMember = ({
       <Form onSubmit={onSubmit}>
         <ModalBody>
           <FormGroup>
+            <Label>부서</Label>
+            <Input type="text" value={currentDept.name} disabled invalid={!currentDept.name} />
+            <FormFeedback>* 구성원 추가를 위해서는 부서 선택이 필요합니다.</FormFeedback>
+          </FormGroup>
+          <FormGroup>
             <Label>이름</Label>
-            <Input id="name" type="text" placeholder="이름 입력" onChange={onChange} value={name} />
+            <Input id="name" type="text" placeholder="이름 입력" onChange={onChange} value={name} required />
           </FormGroup>
           <FormGroup>
             <Label>직책</Label>
-            <Input id="position" type="text" placeholder="직책 입력" onChange={onChange} value={position} />
+            <Input id="position" type="text" placeholder="직책 입력" onChange={onChange} value={position} required/>
           </FormGroup>
           <FormGroup>
             <Label>연락처</Label>
-            <Input id="phone" type="tel" placeholder="연락처 입력" onChange={onChange} value={phone} />
+            <Input id="phone" type="tel" placeholder="연락처 입력" onChange={onChange} value={phone} required />
           </FormGroup>
           <FormGroup>
             <Label>이메일</Label>
-            <Input id="email" type="email" placeholder="이메일 입력" onChange={onChange} value={email} />
+            <Input id="email" type="email" placeholder="이메일 입력" onChange={onChange} value={email} required />
           </FormGroup>
         </ModalBody>
         <ModalFooter>
@@ -179,6 +187,7 @@ interface States {
 
 interface Props extends ConnectProps {
   queryStrings: string;
+  currentDept: DeptProps;
 }
 
 class Controls extends PureComponent<Props, States> {
@@ -220,6 +229,7 @@ class Controls extends PureComponent<Props, States> {
       search,
       isModalOpen,
     } = this.state;
+    const { currentDept } = this.props;
     return (
       <div className="dashboard-controls">
         <TypeDropdown
@@ -236,6 +246,7 @@ class Controls extends PureComponent<Props, States> {
             onSubmit={this.onSearchSubmit}
           />
           <AddMember
+            currentDept={currentDept}
             isOpen={isModalOpen}
             name={name}
             phone={phone}
@@ -316,6 +327,8 @@ class Controls extends PureComponent<Props, States> {
 
 const mapStateToProps = (state: StateInterface, ownProps: ConnectProps) => {
   const { match } = ownProps;
+  const departments = state.company.departments;
+  const currentDept = departments.find((dept) => dept._id === match.params.id) || {};
   const deptsTree = state.company.depts_tree;
   const curChildren = getChildren(deptsTree, match.params.id);
   const queryStrings = curChildren.reduce((result: string, next: string, index: number): string => {
@@ -328,6 +341,7 @@ const mapStateToProps = (state: StateInterface, ownProps: ConnectProps) => {
     return result;
   }, "");
   return {
+    currentDept,
     queryStrings,
   };
 };
