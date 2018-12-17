@@ -265,8 +265,7 @@ class Controls extends PureComponent<ConnectProps, States> {
     e.stopPropagation();
     e.preventDefault();
 
-    // TODO: need to add department_id
-    const { dispatch } = this.props;
+    const { dispatch, match } = this.props;
     const {
       name,
       position,
@@ -275,8 +274,14 @@ class Controls extends PureComponent<ConnectProps, States> {
     } = this.state;
 
     await dispatch(createUser({
-      email, name, phone, position,
+      department_id: match.params.id,
+      email,
+      name,
+      phone,
+      position,
     }));
+
+    this.setState({ isModalOpen: false });
   }
 
   // TODO: need to write code for search submitting
