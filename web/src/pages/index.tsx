@@ -24,6 +24,7 @@ class App extends PureComponent {
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/dashboard/:id" component={Dashboard} />
               <Redirect to="/login" />
             </Switch>
             <ErrorAlert />
