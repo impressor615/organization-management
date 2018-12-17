@@ -40,8 +40,12 @@ module.exports = (router) => {
       ...pwdObj,
     };
 
-    const result = await User.create(userData);
-    res.json({ _id: result._id.toString() });
+    try {
+      const result = await User.create(userData);
+      res.json({ _id: result._id.toString() });
+    } catch (error) {
+      sendError({ res, language: req.language });
+    }
   });
 
   // TODO: apply pagiantion later
