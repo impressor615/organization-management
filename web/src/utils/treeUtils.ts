@@ -45,6 +45,10 @@ export const getDepartments = (data: [DeptProps?]) => {
 };
 
 export const getChildren = (data: [DeptProps?], targetId: string) => {
+  if (!targetId) {
+    return [];
+  }
+
   const result = [targetId];
   if (data.length === 0) {
     return result;
