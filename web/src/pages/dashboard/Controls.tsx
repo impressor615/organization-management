@@ -21,8 +21,9 @@ import {
 } from "reactstrap";
 
 import { ConnectProps, DispatchResult } from "@/@types/types";
-import { createUser } from "@/actions";
+import { createUser, getUsers } from "@/actions";
 import { StateInterface } from "@/reducers";
+import { getChildren } from "@/utils/treeUtils";
 
 interface SearchProps {
   type: string;
@@ -176,7 +177,11 @@ interface States {
   email: string;
 }
 
-class Controls extends PureComponent<ConnectProps, States> {
+interface Props extends ConnectProps {
+  queryStrings: string;
+}
+
+class Controls extends PureComponent<Props, States> {
   public state = {
     email: "",
     isModalOpen: false,
@@ -187,6 +192,22 @@ class Controls extends PureComponent<ConnectProps, States> {
     search: "",
     type: "list",
   };
+
+  public async componentDidMount() {
+    const { dispatch, history, queryStrings } = this.props;
+    const users: DispatchResult = await dispatch(getUsers(queryStrings));
+    if (users.error) {
+      history.replace("/login");
+      return;
+    }
+  }
+
+  public async componentDidUpdate(prevProps: Props) {
+    const { dispatch, queryStrings } = this.props;
+    if (prevProps.queryStrings !== queryStrings) {
+      await dispatch(getUsers(queryStrings));
+    }
+  }
 
   public render() {
     const {
@@ -293,7 +314,22 @@ class Controls extends PureComponent<ConnectProps, States> {
   }
 }
 
-const mapStateToProps = (state: StateInterface) => ({
+const mapStateToProps = (state: StateInterface, ownProps: ConnectProps) => {
+  const { match } = ownProps;
+  const deptsTree = state.company.depts_tree;
+  const curChildren = getChildren(deptsTree, match.params.id);
+  const queryStrings = curChildren.reduce((result: string, next: string, index: number): string => {
+    if (index === 0) {
+      result = result + `dept_ids[${index}]=${next}`;
+    } else {
+      result = result + `&dept_ids[${index}]=${next}`;
+    }
 
-});
+    return result;
+  }, "");
+  return {
+    queryStrings,
+  };
+};
+
 export default withRouter(connect(mapStateToProps)(Controls) as any);

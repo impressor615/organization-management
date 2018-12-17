@@ -13,6 +13,7 @@ export {
 
 export {
   getCompany,
+  getUsers,
   createDept,
   createUser,
 } from "./company";

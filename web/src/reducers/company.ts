@@ -6,6 +6,7 @@ import {
 } from "@/utils/treeUtils";
 import {
   REQ_GET_COMPANY_SUCCESS,
+  REQ_GET_USERS_SUCCESS,
   REQ_POST_DEPT_SUCCESS,
   REQ_POST_USER_SUCCESS,
 } from "@/viewmodels/actionTypes";
@@ -58,6 +59,14 @@ export default function(state: State = initialState, action: Action) {
       return {
         ...state,
         users: newUsers,
+      };
+
+    case REQ_GET_USERS_SUCCESS:
+      return {
+        ...state,
+        users: [
+          ...action.payload,
+        ],
       };
 
     default:

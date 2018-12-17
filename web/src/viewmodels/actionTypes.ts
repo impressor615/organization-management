@@ -22,3 +22,6 @@ export const REQ_POST_DEPT_FAILURE: string = "REQ_POST_DEPT_FAILURE";
 export const REQ_POST_USER: string = "REQ_POST_USER";
 export const REQ_POST_USER_SUCCESS: string = "REQ_POST_USER_SUCCESS";
 export const REQ_POST_USER_FAILURE: string = "REQ_POST_USER_FAILURE";
+export const REQ_GET_USERS: string = "REQ_GET_USERS";
+export const REQ_GET_USERS_SUCCESS: string = "REQ_GET_USERS_SUCCESS";
+export const REQ_GET_USERS_FAILURE: string = "REQ_GET_USERS_FAILURE";
