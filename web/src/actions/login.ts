@@ -5,6 +5,7 @@ import {
   REQ_POST_LOGIN,
   REQ_POST_LOGIN_FAILURE,
   REQ_POST_LOGIN_SUCCESS,
+  USER_LOGOUT,
 } from "@/viewmodels/actionTypes";
 
 export const login = (data: object) => (dispatch: Dispatch) => (
@@ -21,3 +22,7 @@ export const login = (data: object) => (dispatch: Dispatch) => (
     },
   })
 );
+
+export const logout = () => ({
+  type: USER_LOGOUT,
+});

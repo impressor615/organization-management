@@ -4,7 +4,9 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faCaretDown,
   faCaretUp,
+  faCog,
   faPlus,
+  faPowerOff,
   faSearch,
   faSitemap,
   faUser,
@@ -21,6 +23,8 @@ const faIcons = [
   faCaretUp,
   faSearch,
   faUser,
+  faPowerOff,
+  faCog,
 ];
 library.add(...faIcons);
 ReactDOM.render(

@@ -8,6 +8,7 @@ export const REQ_POST_REGISTER_USER_SUCCESS: string = "REQ_POST_REGISTER_USER_SU
 export const REQ_POST_REGISTER_USER_FAILURE: string = "REQ_POST_REGISTER_USER_FAILURE";
 
 // login
+export const USER_LOGOUT: string = "USER_LOGOUT";
 export const REQ_POST_LOGIN: string = "REQ_POST_LOGIN";
 export const REQ_POST_LOGIN_SUCCESS: string = "REQ_POST_LOGIN_SUCCESS";
 export const REQ_POST_LOGIN_FAILURE: string = "REQ_POST_LOGIN_FAILURE";

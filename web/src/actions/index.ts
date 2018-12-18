@@ -4,6 +4,7 @@ export {
 
 export {
   login,
+  logout,
 } from "./login";
 
 export {

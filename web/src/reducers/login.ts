@@ -1,6 +1,7 @@
 import { Action } from "@/@types/types";
 import {
   REQ_POST_LOGIN_SUCCESS,
+  USER_LOGOUT,
 } from "@/viewmodels/actionTypes";
 
 export interface State {
@@ -18,6 +19,14 @@ export default function(state: State = initialState, action: Action) {
         ...state,
         access_token: action.payload.access_token,
       };
+
+    case USER_LOGOUT:
+      localStorage.removeItem("__oc-chart");
+      return {
+        ...state,
+        access_token: "",
+      };
+
     default:
       return state;
   }

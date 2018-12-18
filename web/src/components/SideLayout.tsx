@@ -15,6 +15,8 @@ const SideLayout = ({ children, location }: Props) => {
     <Fragment>
       <SideBar>
         <IconLink text="조직도" icon="sitemap" to="/dashboard" active={/dashboard/.test(location.pathname)} />
+        <IconLink text="설정" icon="cog" to="/settings" active={/settings/.test(location.pathname)} />
+        <IconLink text="로그아웃" icon="power-off" to="/logout" />
       </SideBar>
       <SideMenus />
       <div className="app-container">
