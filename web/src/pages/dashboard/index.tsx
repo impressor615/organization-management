@@ -11,6 +11,7 @@ import SideLayout from "@/components/SideLayout";
 import { StateInterface } from "@/reducers";
 
 import Controls from "./Controls";
+import UsersTable from "./UsersTable";
 
 export interface Props extends ConnectProps {
   name?: string;
@@ -32,6 +33,7 @@ class Page extends PureComponent<Props, {}> {
         <div className="dashboard">
           <Container>
             <Controls />
+            <UsersTable />
           </Container>
         </div>
       </SideLayout>
