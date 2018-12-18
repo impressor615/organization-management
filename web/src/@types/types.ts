@@ -14,6 +14,7 @@ export interface DispatchResult {
 export interface History {
   push: (arg1: string) => void;
   replace: (arg1: string) => void;
+  goBack: () => void;
 }
 
 export interface Location {
