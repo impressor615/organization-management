@@ -42,7 +42,7 @@ module.exports = (router) => {
 
     try {
       const result = await User.create(userData);
-      res.json({ _id: result._id.toString() });
+      res.json({ _id: result._id.toString(), created_at: result.created_at });
     } catch (error) {
       sendError({ res, language: req.language });
     }
