@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, PureComponent } from "react";
 import { withRouter } from "react-router-dom";
 
 import { ConnectProps } from "@/@types/types";
@@ -10,20 +10,23 @@ interface Props extends ConnectProps {
   children: React.ReactNode;
 }
 
-const SideLayout = ({ children, location }: Props) => {
-  return (
-    <Fragment>
-      <SideBar>
-        <IconLink text="조직도" icon="sitemap" to="/dashboard" active={/dashboard/.test(location.pathname)} />
-        <IconLink text="설정" icon="cog" to="/settings" active={/settings/.test(location.pathname)} />
-        <IconLink text="로그아웃" icon="power-off" to="/logout" />
-      </SideBar>
-      <SideMenus />
-      <div className="app-container">
-        { children }
-      </div>
-    </Fragment>
-  );
-};
+class SideLayout extends PureComponent<Props, {}> {
+  public render() {
+    const { children, location } = this.props;
+    return (
+      <Fragment>
+        <SideBar>
+          <IconLink text="조직도" icon="sitemap" to="/dashboard" active={/dashboard/.test(location.pathname)} />
+          <IconLink text="설정" icon="cog" to="/settings" active={/settings/.test(location.pathname)} />
+          <IconLink text="로그아웃" icon="power-off" to="/logout" />
+        </SideBar>
+        <SideMenus />
+        <div className="app-container">
+          { children }
+        </div>
+      </Fragment>
+    );
+  }
+}
 
 export default withRouter(SideLayout as any);
