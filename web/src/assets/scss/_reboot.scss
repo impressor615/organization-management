@@ -1,3 +1,8 @@
 html, body, #app {
   height: 100%;
 }
+
+.app-container {
+  min-width: 900px;
+  overflow-x: hidden;
+}
