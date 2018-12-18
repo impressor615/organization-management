@@ -53,11 +53,6 @@ module.exports = (router) => {
     const { query, user } = req;
     let { dept_ids = [] } = query;
 
-    if (user.authority !== AUTHORITY.admin) {
-      sendError({ res, language: req.language, error: not_authorized });
-      return;
-    }
-
     if (dept_ids.length === 0) {
       const company = await Company.findById(user.company_id).lean().exec();
       dept_ids = (company.departments || []).map(dept => dept._id.toString());
