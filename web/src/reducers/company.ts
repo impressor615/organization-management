@@ -5,6 +5,7 @@ import {
   getDepartments,
 } from "@/utils/treeUtils";
 import {
+  DAB_CHANGE_VIEW,
   REQ_GET_COMPANY_SUCCESS,
   REQ_GET_USERS_SUCCESS,
   REQ_POST_DEPT_SUCCESS,
@@ -12,6 +13,7 @@ import {
 } from "@/viewmodels/actionTypes";
 
 export interface State {
+  type: string;
   departments: [DeptProps?];
   depts_tree: [DeptProps?];
   parent_depts: [DeptProps?];
@@ -22,6 +24,7 @@ export const initialState: State = {
   departments: [],
   depts_tree: [],
   parent_depts: [],
+  type: "list",
   users: [],
 };
 
@@ -67,6 +70,12 @@ export default function(state: State = initialState, action: Action) {
         users: [
           ...action.payload,
         ],
+      };
+
+    case DAB_CHANGE_VIEW:
+      return {
+        ...state,
+        ...action.payload,
       };
 
     default:

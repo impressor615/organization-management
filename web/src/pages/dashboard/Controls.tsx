@@ -22,12 +22,15 @@ import {
 } from "reactstrap";
 
 import { ConnectProps, DispatchResult } from "@/@types/types";
-import { createUser, getUsers } from "@/actions";
+import {
+  changeView,
+  createUser,
+  getUsers,
+} from "@/actions";
 import { StateInterface } from "@/reducers";
 import { DeptProps, getChildren } from "@/utils/treeUtils";
 
 interface SearchProps {
-  type: string;
   search: string;
   onChange(e: React.ChangeEvent): void;
   onSubmit(e: React.FormEvent): void;
@@ -177,7 +180,6 @@ const AddMember = ({
 interface States {
   isOpen: boolean;
   isModalOpen: boolean;
-  type: string;
   search: string;
   name: string;
   position: string;
@@ -188,6 +190,7 @@ interface States {
 interface Props extends ConnectProps {
   queryStrings: string;
   currentDept: DeptProps;
+  type: string;
 }
 
 class Controls extends PureComponent<Props, States> {
@@ -199,7 +202,6 @@ class Controls extends PureComponent<Props, States> {
     phone: "",
     position: "",
     search: "",
-    type: "list",
   };
 
   public async componentDidMount() {
@@ -225,10 +227,10 @@ class Controls extends PureComponent<Props, States> {
       phone,
       position,
       email,
-      type,
       search,
       isModalOpen,
     } = this.state;
+    const { type } = this.props;
     const { currentDept } = this.props;
     return (
       <div className="dashboard-controls">
@@ -240,7 +242,6 @@ class Controls extends PureComponent<Props, States> {
         />
         <div className="dashboard-controls-wrapper">
           <Search
-            type={type}
             search={search}
             onChange={this.onChange}
             onSubmit={this.onSearchSubmit}
@@ -268,7 +269,8 @@ class Controls extends PureComponent<Props, States> {
   }
 
   private onDdClick = (data: { value: string }) => () => {
-    this.setState({ type: data.value });
+    const { dispatch } = this.props;
+    dispatch(changeView({ type: data.value }));
   }
 
   private onChange = (e: React.ChangeEvent) => {
@@ -327,7 +329,7 @@ class Controls extends PureComponent<Props, States> {
 
 const mapStateToProps = (state: StateInterface, ownProps: ConnectProps) => {
   const { match } = ownProps;
-  const departments = state.company.departments;
+  const { type, departments } = state.company;
   const currentDept = departments.find((dept) => dept._id === match.params.id) || {};
   const deptsTree = state.company.depts_tree;
   const curChildren = getChildren(deptsTree, match.params.id);
@@ -343,6 +345,7 @@ const mapStateToProps = (state: StateInterface, ownProps: ConnectProps) => {
   return {
     currentDept,
     queryStrings,
+    type,
   };
 };
 

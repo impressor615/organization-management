@@ -12,6 +12,7 @@ export {
 } from "./commonUI";
 
 export {
+  changeView,
   getCompany,
   getUsers,
   createDept,

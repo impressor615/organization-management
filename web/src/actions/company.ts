@@ -2,6 +2,7 @@ import { RSAA } from "redux-api-middleware";
 
 import { Dispatch } from "@/@types/types";
 import {
+  DAB_CHANGE_VIEW,
   REQ_GET_COMPANY,
   REQ_GET_COMPANY_FAILURE,
   REQ_GET_COMPANY_SUCCESS,
@@ -15,6 +16,11 @@ import {
   REQ_POST_USER_FAILURE,
   REQ_POST_USER_SUCCESS,
 } from "@/viewmodels/actionTypes";
+
+export const changeView = (payload: { type: string; }) => ({
+  payload,
+  type: DAB_CHANGE_VIEW,
+});
 
 export const getCompany = () => (dispatch: Dispatch) => (
   dispatch({

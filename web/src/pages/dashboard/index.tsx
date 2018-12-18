@@ -1,6 +1,6 @@
 import "@/assets/scss/pages/_dashboard.scss";
 
-import React, { PureComponent } from "react";
+import React, { Fragment, PureComponent } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Container } from "reactstrap";
@@ -12,8 +12,15 @@ import { StateInterface } from "@/reducers";
 
 import Controls from "./Controls";
 import UsersTable from "./UsersTable";
+import UsersTree from "./UsersTree";
+
+const LIST_TYPE = {
+  list: "list",
+  tree: "tree",
+};
 
 export interface Props extends ConnectProps {
+  type: string;
   name?: string;
 }
 
@@ -33,10 +40,23 @@ class Page extends PureComponent<Props, {}> {
         <div className="dashboard">
           <Container>
             <Controls />
-            <UsersTable />
+            { this.renderUsers() }
           </Container>
         </div>
       </SideLayout>
+    );
+  }
+
+  private renderUsers = () => {
+    const { type } = this.props;
+    return (
+      <Fragment>
+        {
+          type === LIST_TYPE.list
+            ? <UsersTable />
+            : <UsersTree />
+        }
+      </Fragment>
     );
   }
 }

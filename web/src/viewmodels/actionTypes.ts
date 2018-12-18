@@ -13,6 +13,7 @@ export const REQ_POST_LOGIN_SUCCESS: string = "REQ_POST_LOGIN_SUCCESS";
 export const REQ_POST_LOGIN_FAILURE: string = "REQ_POST_LOGIN_FAILURE";
 
 // company
+export const DAB_CHANGE_VIEW: string = "DAB_CHANGE_VIEW";
 export const REQ_GET_COMPANY: string = "REQ_GET_COMPANY";
 export const REQ_GET_COMPANY_SUCCESS: string = "REQ_GET_COMPANY_SUCCESS";
 export const REQ_GET_COMPANY_FAILURE: string = "REQ_GET_COMPANY_FAILURE";
