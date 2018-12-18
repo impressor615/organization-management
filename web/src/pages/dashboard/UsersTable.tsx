@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { PureComponent } from "react";
+import React, { Fragment, PureComponent } from "react";
 import { connect } from "react-redux";
 import { Table } from "reactstrap";
 
@@ -37,35 +37,40 @@ class UsersTable extends PureComponent<Props, {}> {
   public render() {
     const { users, departments } = this.props;
     return (
-      <Table hover responsive>
-        <thead>
-          <tr>
+      <Fragment>
+        <Table hover responsive>
+          <thead>
+            <tr>
+              {
+                THEAD.map((header) => (
+                  <th key={header}>{header}</th>
+                ))
+              }
+            </tr>
+          </thead>
+          <tbody>
             {
-              THEAD.map((header) => (
-                <th key={header}>{header}</th>
+              users.map((user, index) => (
+                <tr key={user._id}>
+                  <th scope="row">{ index + 1 }</th>
+                  <td>{
+                    (departments.find((dept) => dept._id === user.department_id) || {}).name || ""
+                  }</td>
+                  <td>{ user.position }</td>
+                  <td>{ user.name }</td>
+                  <td>{ user.phone }</td>
+                  <td>{ user.email }</td>
+                  <td>{ moment(user.created_at).format("YYYY-MM-DD hh:mm A") }</td>
+                  <td>-</td>
+                </tr>
               ))
             }
-          </tr>
-        </thead>
-        <tbody>
-          {
-            users.map((user, index) => (
-              <tr key={user._id}>
-                <th scope="row">{ index + 1 }</th>
-                <td>{
-                  (departments.find((dept) => dept._id === user.department_id) || {}).name || ""
-                }</td>
-                <td>{ user.position }</td>
-                <td>{ user.name }</td>
-                <td>{ user.phone }</td>
-                <td>{ user.email }</td>
-                <td>{ moment(user.created_at).format("YYYY-MM-DD hh:mm A") }</td>
-                <td>-</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </Table>
+          </tbody>
+        </Table>
+        <div className="dashboard-total">
+          {`총 인원 수: ${users.length}명`}
+        </div>
+      </Fragment>
     );
   }
 }
