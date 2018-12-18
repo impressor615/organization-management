@@ -17,11 +17,10 @@ export default function(state: State = initialState, action: Action) {
     case REQ_POST_LOGIN_SUCCESS:
       return {
         ...state,
-        access_token: action.payload.access_token,
+        ...action.payload,
       };
 
     case USER_LOGOUT:
-      localStorage.removeItem("__oc-chart");
       return {
         ...state,
         access_token: "",
