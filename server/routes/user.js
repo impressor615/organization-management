@@ -59,8 +59,8 @@ module.exports = (router) => {
     }
 
     if (dept_ids.length === 0) {
-      const departments = await Company.findById(user.company_id).lean().exec().departments || [];
-      dept_ids = departments.map(dept => dept._id.toString());
+      const company = await Company.findById(user.company_id).lean().exec();
+      dept_ids = (company.departments || []).map(dept => dept._id.toString());
     }
 
     const condition = {
