@@ -7,6 +7,7 @@ import {
   Button,
   Container,
   Form,
+  FormFeedback,
   FormGroup,
   Input,
   Label,
@@ -18,21 +19,22 @@ import { StateInterface } from "@/reducers";
 
 interface States {
   email: string;
-  companyName: string;
   password: string;
   passwordCheck: string;
+  isValid: boolean;
 }
 
 class Page extends PureComponent<ConnectProps, States>  {
   public state: States = {
-    companyName: "",
     email: "",
+    isValid: true,
     password: "",
     passwordCheck: "",
   };
 
   public render() {
     const { loading } = this.props;
+    const { isValid } = this.state;
     return (
       <Container className="register">
         <Form onSubmit={this.onSubmit}>
@@ -43,16 +45,6 @@ class Page extends PureComponent<ConnectProps, States>  {
               type="email"
               name="email"
               placeholder="이메일 입력"
-              onChange={this.onChange}
-              required
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label>회사명</Label>
-            <Input
-              type="text"
-              name="companyName"
-              placeholder="회사명 입력"
               onChange={this.onChange}
               required
             />
@@ -73,9 +65,11 @@ class Page extends PureComponent<ConnectProps, States>  {
               type="password"
               name="passwordCheck"
               placeholder="비밀번호 확인 입력"
-              onChange={this.onChange}
+              onChange={this.onPasswordCheckChange}
+              invalid={!isValid}
               required
             />
+            <FormFeedback>* 비밀번호와 비밀번호 확인이 일치해야 합니다.</FormFeedback>
           </FormGroup>
           <Button
             block
@@ -98,18 +92,38 @@ class Page extends PureComponent<ConnectProps, States>  {
     this.setState({ [name]: value } as Pick<States, keyof States>);
   }
 
+  private onPasswordCheckChange = (e: React.ChangeEvent): void => {
+    e.stopPropagation();
+
+    const { password } = this.state;
+    const { value }: any = e.target;
+    const newState = {
+      isValid: password === value,
+      passwordCheck: value,
+    };
+    this.setState({ ...newState });
+  }
+
+  private validate = (): boolean => {
+    const { password, passwordCheck } = this.state;
+    return password === passwordCheck;
+  }
+
   private onSubmit = async (e: React.FormEvent): Promise<string> => {
     e.preventDefault();
+    if (!this.validate()) {
+      this.setState({ isValid: false });
+      return;
+    }
+
     const {
       email,
-      companyName,
       password,
       passwordCheck,
     } = this.state;
     const { dispatch, history } = this.props;
 
     const postData = {
-      company_name: companyName,
       email,
       password,
       passwordCheck,
