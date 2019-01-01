@@ -15,7 +15,6 @@ module.exports = (router) => {
 
     const result = await User.create({
       email,
-      authority: User.Authority.admin,
       ...passwordObj,
     });
     return res.json({ _id: result._id.toString() });
