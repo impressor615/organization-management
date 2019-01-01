@@ -1,11 +1,11 @@
-const { User, Company } = require('../models')();
+const { User } = require('../models')();
 const { sendError } = require('../utils/routeUtils');
 const { generatePassword } = require('../utils/pwdUtils');
 
 module.exports = (router) => {
   router.post('/register', async (req, res) => {
-    const { email, password, company_name } = req.body;
-    if (!email || !password || !company_name) {
+    const { email, password } = req.body;
+    if (!email || !password) {
       sendError({ res, language: req.language });
       return;
     }
@@ -13,10 +13,8 @@ module.exports = (router) => {
     req.body.pssword = '*';
     req.body.email = '*';
 
-    const company = await Company.create({ name: company_name });
     const result = await User.create({
       email,
-      company_id: company._id.toString(),
       authority: User.Authority.admin,
       ...passwordObj,
     });

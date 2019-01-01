@@ -6,11 +6,10 @@ const {
   assertError,
   errors,
 } = chai;
-const { User, Company } = models;
+const { User } = models;
 describe('Register Router', () => {
   after(async () => {
     await User.deleteMany();
-    await Company.deleteMany();
   });
 
   describe('POST /api/register', () => {
@@ -20,7 +19,6 @@ describe('Register Router', () => {
         .send({
           email: 'admin@orgchart.com',
           password: '1234',
-          company_name: 'orgchart',
         });
 
       res.body.should.include.keys(['_id']);
