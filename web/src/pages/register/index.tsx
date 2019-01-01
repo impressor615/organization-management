@@ -14,7 +14,7 @@ import {
 } from "reactstrap";
 
 import { ConnectProps } from "@/@types/types";
-import { register, setLoading } from "@/actions";
+import { register, setLoading, showMessage } from "@/actions";
 import { StateInterface } from "@/reducers";
 
 interface States {
@@ -133,6 +133,10 @@ class Page extends PureComponent<ConnectProps, States>  {
     await dispatch(register(postData));
     dispatch(setLoading(false));
     history.push("/login");
+    dispatch(showMessage({
+      message: "가입이 완료되었습니다. 로그인하세요.",
+      type: "message",
+    }));
     return;
   }
 
