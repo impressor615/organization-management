@@ -7,7 +7,7 @@ import {
   Switch,
 } from "react-router-dom";
 
-import ErrorAlert from "@/components/ErrorAlert";
+import Message from "@/components/Message";
 import configureStore from "@/configureStore";
 import Dashboard from "@/pages/dashboard";
 import Login from "@/pages/login";
@@ -29,7 +29,7 @@ class App extends PureComponent {
               <Route exact path="/logout" component={Logout} />
               <Redirect to="/login" />
             </Switch>
-            <ErrorAlert />
+            <Message />
           </Fragment>
         </Router>
       </Provider>

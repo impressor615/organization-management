@@ -28,9 +28,9 @@ class Page extends PureComponent<ConnectProps, States> {
   };
 
   public componentDidMount() {
-    const { history, error } = this.props;
+    const { history } = this.props;
     const { access_token }: { access_token: string } = JSON.parse(localStorage.getItem("__oc-chart")) || {};
-    if (access_token && !error) {
+    if (access_token) {
       history.replace("/dashboard");
     }
   }
@@ -104,7 +104,6 @@ class Page extends PureComponent<ConnectProps, States> {
 }
 
 const mapStateToProps = (state: StateInterface) => ({
-  error: state.commonUI.error,
   loading: state.commonUI.loading,
 });
 export default withRouter(connect(mapStateToProps)(Page) as any);

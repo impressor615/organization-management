@@ -1,25 +1,29 @@
-import "./_error.scss";
+import "./_message.scss";
 
 import React, { Fragment, PureComponent} from "react";
 import { connect } from "react-redux";
 import { Alert } from "reactstrap";
 
 import { Dispatch } from "@/@types/types";
-import { clearError } from "@/actions";
+import { hideMessage } from "@/actions";
 import { StateInterface } from "@/reducers";
+import { MessageType } from "@/reducers/commonUI";
 
 interface Props {
-  error: string;
+  message: {
+    type: MessageType,
+    message: string;
+  } | null;
   dispatch: Dispatch;
 }
 
-class ErrorAlert extends PureComponent<Props, {}> {
+class Message extends PureComponent<Props, {}> {
   private clear: number | NodeJS.Timeout;
 
   public componentDidUpdate(prevProps: Props): void {
-    const { error, dispatch } = this.props;
-    if (!prevProps.error && error) {
-      this.clear = setTimeout(() => dispatch(clearError()), 2000);
+    const { message, dispatch } = this.props;
+    if (!prevProps.message && message) {
+      this.clear = setTimeout(() => dispatch(hideMessage()), 2000);
     }
   }
 
@@ -30,17 +34,17 @@ class ErrorAlert extends PureComponent<Props, {}> {
   }
 
   public render() {
-    const { error } = this.props;
+    const { message } = this.props;
     return (
       <Fragment>
         {
-          error
+          message
             ? <Alert
-                color="danger"
+                color={ message.type === "error" ? "danger" : "success" }
                 className="error-alert"
                 toggle={this.onCloseClick}
               >
-                {error}
+                {message.message}
               </Alert>
             : null
         }
@@ -50,9 +54,9 @@ class ErrorAlert extends PureComponent<Props, {}> {
 
   private onCloseClick = (): void => {
     const { dispatch } = this.props;
-    dispatch(clearError());
+    dispatch(hideMessage());
   }
 }
 
-const mapStateToProps = (state: StateInterface)  => ({ error: state.commonUI.error });
-export default connect(mapStateToProps)(ErrorAlert);
+const mapStateToProps = (state: StateInterface)  => ({ message: state.commonUI.message });
+export default connect(mapStateToProps)(Message);

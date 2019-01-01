@@ -1,5 +1,6 @@
 // commonUI
-export const CLEAR_ERROR: string = "CLEAR_ERROR";
+export const SHOW_MESSAGE: string = "SHOW_MESSAGE";
+export const HIDE_MESSAGE: string = "HIDE_MESSAGE";
 export const SET_LOADING: string = "SET_LOADING";
 
 // register

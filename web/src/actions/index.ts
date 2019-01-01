@@ -9,7 +9,8 @@ export {
 
 export {
   setLoading,
-  clearError,
+  showMessage,
+  hideMessage,
 } from "./commonUI";
 
 export {
