@@ -6,14 +6,11 @@ const schema = new Schema({
   name: {
     type: String,
     required: true,
-  },
-  parent_id: {
-    type: Schema.Types.ObjectId,
-    ref: 'Department',
+    unique: true,
   },
 }, TIMESTAMPS);
 
 module.exports = {
   schema,
-  createModel: connection => connection.model('Department', schema),
+  createModel: connection => connection.model('Company', schema),
 };
