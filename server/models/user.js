@@ -8,15 +8,6 @@ const schema = new Schema({
     required: true,
     unique: true,
   },
-  company_id: {
-    type: Schema.Types.ObjectId,
-    ref: 'Company',
-    required: true,
-  },
-  department_id: {
-    type: Schema.Types.ObjectId,
-    ref: 'Company.departments',
-  },
   password: {
     type: String,
     required: true,
