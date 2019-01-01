@@ -16,7 +16,7 @@ const userOrgShcema = new Schema({
       message: props => `${props.value} is not a valid authority`,
     },
   },
-});
+}, { _id: false });
 
 const schema = new Schema({
   email: {
