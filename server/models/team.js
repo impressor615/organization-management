@@ -11,5 +11,5 @@ const schema = new Schema({
 
 module.exports = {
   schema,
-  createModel: connection => connection.model('Organization', schema),
+  createModel: connection => connection.model('Team', schema),
 };

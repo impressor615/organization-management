@@ -13,6 +13,6 @@ module.exports = (app) => {
   app.use(bodyParser.json());
   app.use(parseLanguage);
   app.use(pagination);
-  app.use(/^\/api\/user\/organizations.*$/, auth);
+  app.use(/^\/api\/user\/teams.*$/, auth);
   app.use(/^\/api\/users.*$/, auth);
 };

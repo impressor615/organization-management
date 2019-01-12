@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const { TIMESTAMPS, AUTHORITY } = require('../constants/models');
 
 const { Schema } = mongoose;
-const userOrgShcema = new Schema({
-  organization: {
+const userTeamSchema = new Schema({
+  team: {
     type: Schema.Types.ObjectId,
-    ref: 'Organization',
+    ref: 'Team',
   },
   authority: {
     type: String,
@@ -28,7 +28,7 @@ const schema = new Schema({
     type: String,
     required: true,
   },
-  organizations: [userOrgShcema],
+  teams: [userTeamSchema],
   salt: {
     type: String,
     required: true,
