@@ -22,9 +22,12 @@ module.exports = (router) => {
   });
 
   router.get('/user/teams', async (req, res) => {
-    const { user } = req;
+    const { user, query } = req;
+    const { count, skip } = query;
     const { teams } = await User.findById(user._id)
       .populate('teams.team', '_id name')
+      .skip(skip)
+      .limit(count)
       .lean()
       .exec();
 
