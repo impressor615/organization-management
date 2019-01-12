@@ -9,8 +9,11 @@ const {
 const { User, Organization } = models;
 describe('Organization Router', () => {
   let accessToken;
-  // let departmentId;
+  let orgId;
   before(async () => {
+    await User.deleteMany();
+    await Organization.deleteMany();
+
     const registerResponse = await chai.request(app)
       .post('/api/register')
       .send({
@@ -44,6 +47,7 @@ describe('Organization Router', () => {
         .send({ name: 'orgchart' });
 
       res.body.should.include.keys(['_id']);
+      orgId = res.body._id;
     });
 
     it('should return invalid_route_data when there is no request body ', async () => {
@@ -55,74 +59,71 @@ describe('Organization Router', () => {
     });
   });
 
-  // describe('GET /api/company', () => {
-  //   it('should return the company\'s information', async () => {
-  //     const res = await chai.request(app)
-  //       .get('/api/company')
-  //       .set('x-access-token', accessToken);
+  describe('GET /api/organizations', () => {
+    it('should return users\' organizations', async () => {
+      const res = await chai.request(app)
+        .get('/api/organizations')
+        .set('x-access-token', accessToken);
 
-  //     res.body.should.include.keys(['_id', 'name', 'created_at', 'updated_at']);
-  //   });
-  // });
+      res.status.should.equal(200);
+      res.body.should.lengthOf(1);
+      res.body.forEach((org) => {
+        org.should.include.keys(['organization', 'authority']);
+      });
+    });
+  });
 
-  // describe('POST /api/company/departments', () => {
-  //   it('return route_invalid_data when there is no required field', async () => {
-  //     const res = await chai.request(app)
-  //       .post('/api/company/departments')
-  //       .set('x-access-token', accessToken);
+  describe('PUT /api/organizations/:id', () => {
+    it('should update the organizations info', async () => {
+      const update = { name: 'orgchart1' };
+      const res = await chai.request(app)
+        .put(`/api/organizations/${orgId}`)
+        .set('x-access-token', accessToken)
+        .send(update);
 
-  //     assertError(res.error.text, errors.route_invalid_data);
-  //   });
+      res.status.should.equal(200);
 
-  //   it('should create department', async () => {
-  //     const res = await chai.request(app)
-  //       .post('/api/company/departments')
-  //       .set('x-access-token', accessToken)
-  //       .send({ name: 'department1' });
+      const getRes = await chai.request(app)
+        .get('/api/organizations')
+        .set('x-access-token', accessToken);
 
-  //     departmentId = res.body._id;
-  //     res.body.should.include.keys(['_id']);
-  //   });
-  // });
+      getRes.body.should.lengthOf(1);
+      getRes.body[0].organization.name.should.equal(update.name);
+    });
 
-  // describe('GET /api/company/departments', () => {
-  //   it('should return the company\'s departments', async () => {
-  //     const res = await chai.request(app)
-  //       .get('/api/company/departments')
-  //       .set('x-access-token', accessToken);
+    it('should return invalid data when update is not provided', async () => {
+      const res = await chai.request(app)
+        .put('/api/organizations/fakeId')
+        .set('x-access-token', accessToken);
 
-  //     res.body.forEach((department) => {
-  //       department.should.include.keys(['_id', 'name', 'created_at', 'updated_at']);
-  //     });
-  //   });
-  // });
+      assertError(res.error.text, errors.route_invalid_data);
+    });
 
-  // describe('PUT /api/company/departments/:id', () => {
-  //   it('return route_invalid_data when there is no required field', async () => {
-  //     const res = await chai.request(app)
-  //       .put(`/api/company/departments/${departmentId}`)
-  //       .set('x-access-token', accessToken);
+    it('should return invalid data when the user don\'t belong to the org', async () => {
+      const update = { name: 'orgchart1' };
+      const res = await chai.request(app)
+        .put('/api/organizations/fakeId')
+        .set('x-access-token', accessToken)
+        .send(update);
 
-  //     assertError(res.error.text, errors.route_invalid_data);
-  //   });
+      assertError(res.error.text, errors.route_invalid_data);
+    });
+  });
 
-  //   it('should update department', async () => {
-  //     const res = await chai.request(app)
-  //       .put(`/api/company/departments/${departmentId}`)
-  //       .set('x-access-token', accessToken)
-  //       .send({ name: 'department2' });
+  describe('DELETE /api/organizations/:id', () => {
+    it('should delete the organization', async () => {
+      const res = await chai.request(app)
+        .delete(`/api/organizations/${orgId}`)
+        .set('x-access-token', accessToken);
 
-  //     res.body.should.be.empty;
-  //   });
-  // });
+      res.status.should.equal(200);
+      res.body.should.empty;
 
-  // describe('DELETE /api/company/departments/:id', () => {
-  //   it('should delete department', async () => {
-  //     const res = await chai.request(app)
-  //       .delete(`/api/company/departments/${departmentId}`)
-  //       .set('x-access-token', accessToken);
+      const getRes = await chai.request(app)
+        .get('/api/organizations')
+        .set('x-access-token', accessToken);
 
-  //     res.body.should.be.empty;
-  //   });
-  // });
+      getRes.body.should.lengthOf(0);
+    });
+  });
 });
