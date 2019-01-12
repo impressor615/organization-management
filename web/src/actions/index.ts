@@ -20,3 +20,7 @@ export {
   createDept,
   createUser,
 } from "./company";
+
+export {
+  createTeam,
+} from "./team";

@@ -1,0 +1,19 @@
+@import "../mixins";
+
+.organizations {
+  @include center-container();
+
+  button, a {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  button:last-child,
+  a:last-child {
+    margin-bottom: 0;
+  }
+
+  button .plus-icon {
+    margin-right: 15px;
+  }
+}

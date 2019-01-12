@@ -12,6 +12,7 @@ import configureStore from "@/configureStore";
 import Login from "@/pages/login";
 import Logout from "@/pages/logout";
 import Register from "@/pages/register";
+import Teams from "@/pages/teams";
 
 const Store = configureStore({});
 class App extends PureComponent {
@@ -23,6 +24,7 @@ class App extends PureComponent {
             <Switch>
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
+              <Route exact path="/teams" component={Teams} />
               <Route exact path="/logout" component={Logout} />
               <Redirect to="/login" />
             </Switch>

@@ -28,3 +28,8 @@ export const REQ_POST_USER_FAILURE: string = "REQ_POST_USER_FAILURE";
 export const REQ_GET_USERS: string = "REQ_GET_USERS";
 export const REQ_GET_USERS_SUCCESS: string = "REQ_GET_USERS_SUCCESS";
 export const REQ_GET_USERS_FAILURE: string = "REQ_GET_USERS_FAILURE";
+
+// teams
+export const REQ_POST_TEAM: string = "REQ_POST_TEAM";
+export const REQ_POST_TEAM_SUCCESS: string = "REQ_POST_TEAM_SUCCESS";
+export const REQ_POST_TEAM_FAILURE: string = "REQ_POST_TEAM_FAILURE";
