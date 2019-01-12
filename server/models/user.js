@@ -3,7 +3,7 @@ const { TIMESTAMPS, AUTHORITY } = require('../constants/models');
 
 const { Schema } = mongoose;
 const userOrgShcema = new Schema({
-  org_id: {
+  organization: {
     type: Schema.Types.ObjectId,
     ref: 'Organization',
   },
