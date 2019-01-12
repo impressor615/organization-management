@@ -1,9 +1,7 @@
-.login {
-  display: flex;
-  align-items: center;
+@import "../mixins";
 
-  max-width: 450px;
-  height: 100%;
+.login {
+  @include center-container();
 
   h1 {
     text-align: center;

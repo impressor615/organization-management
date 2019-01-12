@@ -1,0 +1,9 @@
+@mixin center-container($max-width: 450px, $direction: column) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: center;
+  align-items: center;
+
+  max-width: $max-width;
+  height: 100%;
+}
