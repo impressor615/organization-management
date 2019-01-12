@@ -2,6 +2,7 @@
 const bodyParser = require('body-parser');
 
 const parseLanguage = require('./parseLanguage');
+const pagination = require('./pagination');
 const auth = require('./auth');
 
 module.exports = (app) => {
@@ -11,6 +12,7 @@ module.exports = (app) => {
   }
   app.use(bodyParser.json());
   app.use(parseLanguage);
+  app.use(pagination);
   app.use(/^\/api\/user\/organizations.*$/, auth);
   app.use(/^\/api\/users.*$/, auth);
 };

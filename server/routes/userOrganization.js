@@ -21,7 +21,6 @@ module.exports = (router) => {
     res.json({ _id: organization });
   });
 
-  // TODO: add filter, pagnation middlewares
   router.get('/user/organizations', async (req, res) => {
     const { user } = req;
     const { organizations } = await User.findById(user._id)
