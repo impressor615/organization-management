@@ -6,7 +6,7 @@ import {
 
 export interface TeamProps {
   authority: string;
-  organization?: {
+  team?: {
     name: string;
     _id: string;
   };
@@ -30,7 +30,7 @@ export default function(state: State = initialState, action: Action) {
           ...state.teams,
           {
             authority: "admin",
-            organization: {
+            team: {
               ...action.meta,
               ...action.payload,
             },
@@ -40,11 +40,7 @@ export default function(state: State = initialState, action: Action) {
 
     case REQ_GET_TEAMS_SUCCESS:
       return {
-        ...state,
-        teams: [
-          ...state.teams,
-          ...action.payload,
-        ],
+        teams: [...action.payload],
       };
 
     default:

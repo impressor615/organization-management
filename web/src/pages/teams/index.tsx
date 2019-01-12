@@ -39,7 +39,7 @@ class Page extends PureComponent<Props, {}> {
         <h4>팀 추가 및 선택</h4>
         {
           teams.map((team: TeamProps) => (
-            <TeamLink {...team} key={team.organization._id} />
+            <TeamLink {...team} key={team.team._id} />
           ))
         }
         <AddButton createTeam={this.createTeam} />
@@ -64,16 +64,16 @@ class Page extends PureComponent<Props, {}> {
   }
 }
 
-const TeamLink = ({ authority, organization }: TeamProps) => (
+const TeamLink = ({ authority, team }: TeamProps) => (
   <Link
-    to={`/teams/${organization._id}`}
+    to={`/teams/${team._id}`}
     className="teams__link btn btn-secondary"
   >
     {
       authority === "admin" ?
         <FontAwesomeIcon icon="crown" /> : null
     }
-    { organization.name }
+    { team.name }
   </Link>
 );
 
