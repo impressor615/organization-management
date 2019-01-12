@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "NODE_ENV=development nodemon app.js",
-    "test": "NODE_ENV=test mocha -r ./test/setup.js --recursive --exit"
+    "test": "NODE_ENV=test mocha -r ./test/setup.js --recursive --exit -w"
   },
   "main": "app.js",
   "author": "seonghyeon",
