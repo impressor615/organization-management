@@ -12,7 +12,7 @@ module.exports = (router) => {
       return;
     }
 
-    const theTeam = await Team.create({ name });
+    const theTeam = await Team.create({ name, size });
     const theUser = await User.findById(user._id).exec();
     const teamId = theTeam._id.toString();
     theUser.teams.push({ team: teamId, authority: AUTHORITY.admin });
@@ -25,7 +25,7 @@ module.exports = (router) => {
     const { user, query } = req;
     const { count, skip } = query;
     const { teams } = await User.findById(user._id)
-      .populate('teams.team', '_id name')
+      .populate('teams.team', '_id name size')
       .skip(skip)
       .limit(count)
       .lean()
