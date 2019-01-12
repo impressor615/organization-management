@@ -31,7 +31,7 @@ class Page extends PureComponent<ConnectProps, States> {
     const { history } = this.props;
     const { access_token }: { access_token: string } = JSON.parse(localStorage.getItem("__oc-chart")) || {};
     if (access_token) {
-      history.replace("/dashboard");
+      history.replace("/teams");
     }
   }
 
@@ -98,7 +98,7 @@ class Page extends PureComponent<ConnectProps, States> {
     }
     const accessToken = result.payload.access_token;
     localStorage.setItem("__oc-chart", JSON.stringify({ access_token: accessToken }));
-    history.push("/dashboard");
+    history.push("/teams");
     return;
   }
 }
