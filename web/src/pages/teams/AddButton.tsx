@@ -12,9 +12,32 @@ import {
   ModalHeader,
 } from "reactstrap";
 
+const TEAM_SIZES: {
+  [index: string]: { code: string; text: string };
+} = {
+  tiny: {
+    code: "tiny",
+    text: "5명 미만",
+  },
+  // tslint:disable-next-line:object-literal-sort-keys
+  small: {
+    code: "small",
+    text: "5명 ~ 20명",
+  },
+  medium: {
+    code: "medium",
+    text: "20명 ~ 100명",
+  },
+  big: {
+    code: "big",
+    text: "100명 이상",
+  },
+};
+
 interface States {
   isOpen: boolean;
   name: string;
+  size: string;
 }
 
 interface Props {
@@ -25,10 +48,11 @@ class AddButton extends PureComponent<Props, States> {
   public state = {
     isOpen: false,
     name: "",
+    size: "tiny",
   };
 
   public render() {
-    const { isOpen, name } = this.state;
+    const { isOpen, name, size } = this.state;
     return (
       <Fragment>
         <Button type="button" color="primary" onClick={this.onToggle}>
@@ -38,6 +62,7 @@ class AddButton extends PureComponent<Props, States> {
         <CreateTeamModal
           isOpen={isOpen}
           name={name}
+          size={size}
           onToggle={this.onToggle}
           onClosed={this.onClosed}
           onChange={this.onChange}
@@ -63,6 +88,7 @@ class AddButton extends PureComponent<Props, States> {
   private onClosed = () => {
     this.setState({
       name: "",
+      size: "tiny",
     });
   }
 
@@ -70,8 +96,8 @@ class AddButton extends PureComponent<Props, States> {
     e.preventDefault();
     e.stopPropagation();
     const { createTeam } = this.props;
-    const { name } = this.state;
-    await createTeam({ name });
+    const { name, size } = this.state;
+    await createTeam({ name, size });
     this.setState({ isOpen: false });
   }
 }
@@ -79,6 +105,7 @@ class AddButton extends PureComponent<Props, States> {
 interface CreateTeamModalProps {
   isOpen: boolean;
   name: string;
+  size: string;
   onChange(e: React.ChangeEvent): void;
   onToggle(): void;
   onClosed(): void;
@@ -91,6 +118,7 @@ const CreateTeamModal = ({
   onClosed,
   onSubmit,
   name,
+  size,
 }: CreateTeamModalProps) => (
   <Modal isOpen={isOpen} toggle={onToggle} onClosed={onClosed} size="sm">
     <ModalHeader toggle={onToggle}>팀 추가</ModalHeader>
@@ -99,6 +127,25 @@ const CreateTeamModal = ({
         <FormGroup>
           <Label>팀 이름</Label>
           <Input id="name" type="text" placeholder="팀 이름 입력" onChange={onChange} value={name} />
+        </FormGroup>
+        <FormGroup>
+          <Label>팀 규모</Label>
+          {
+            Object.keys(TEAM_SIZES).map((sizeKey) => (
+              <FormGroup check key={sizeKey}>
+                <Label check>
+                  <Input
+                    type="radio"
+                    id="size"
+                    onChange={onChange}
+                    value={TEAM_SIZES[sizeKey].code}
+                    checked={TEAM_SIZES[sizeKey].code === size}
+                  />&nbsp;
+                  { TEAM_SIZES[sizeKey].text }
+                </Label>
+              </FormGroup>
+            ))
+          }
         </FormGroup>
         <ModalFooter>
           <Button color="primary" type="submit">생성</Button>

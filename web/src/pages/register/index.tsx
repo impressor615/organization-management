@@ -32,6 +32,14 @@ class Page extends PureComponent<ConnectProps, States>  {
     passwordCheck: "",
   };
 
+  public componentDidMount() {
+    const { history } = this.props;
+    const { access_token }: { access_token: string } = JSON.parse(localStorage.getItem("__oc-chart")) || {};
+    if (access_token) {
+      history.replace("/teams");
+    }
+  }
+
   public render() {
     const { loading } = this.props;
     const { isValid } = this.state;
