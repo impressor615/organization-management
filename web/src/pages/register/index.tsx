@@ -130,8 +130,12 @@ class Page extends PureComponent<ConnectProps, States>  {
     };
 
     dispatch(setLoading(true));
-    await dispatch(register(postData));
+    const result = await dispatch(register(postData));
     dispatch(setLoading(false));
+    if (result.error) {
+      return;
+    }
+
     history.push("/login");
     dispatch(showMessage({
       message: "가입이 완료되었습니다. 로그인하세요.",
