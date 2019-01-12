@@ -5,6 +5,7 @@ import {
   faCaretDown,
   faCaretUp,
   faCog,
+  faCrown,
   faPlus,
   faPowerOff,
   faSearch,
@@ -25,6 +26,7 @@ const faIcons = [
   faUser,
   faPowerOff,
   faCog,
+  faCrown,
 ];
 library.add(...faIcons);
 ReactDOM.render(

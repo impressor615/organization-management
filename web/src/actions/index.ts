@@ -23,4 +23,5 @@ export {
 
 export {
   createTeam,
-} from "./team";
+  getTeams,
+} from "./teams";

@@ -1,11 +1,15 @@
 @import "../mixins";
 
-.organizations {
+.teams {
   @include center-container();
+
+  h4 {
+    margin-bottom: 50px;
+  }
 
   button, a {
     width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
   }
 
   button:last-child,
@@ -13,7 +17,8 @@
     margin-bottom: 0;
   }
 
-  button .plus-icon {
+  button svg,
+  &__link svg {
     margin-right: 15px;
   }
 }

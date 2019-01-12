@@ -32,7 +32,7 @@ class AddButton extends PureComponent<Props, States> {
     return (
       <Fragment>
         <Button type="button" color="primary" onClick={this.onToggle}>
-          <FontAwesomeIcon icon="plus" className="plus-icon" />
+          <FontAwesomeIcon icon="plus" />
           <span>조직 추가</span>
         </Button>
         <CreateTeamModal

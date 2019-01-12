@@ -1,13 +1,15 @@
 import { Action } from "@/@types/types";
 import {
+  REQ_GET_TEAMS_SUCCESS,
   REQ_POST_TEAM_SUCCESS,
 } from "@/viewmodels/actionTypes";
 
 export interface TeamProps {
-  name: string;
-  _id: string;
-  created_at: string;
-  updated_at: string;
+  authority: string;
+  organization?: {
+    name: string;
+    _id: string;
+  };
 }
 
 export interface State {
@@ -27,9 +29,21 @@ export default function(state: State = initialState, action: Action) {
         teams: [
           ...state.teams,
           {
-            ...action.meta,
-            ...action.payload,
+            authority: "admin",
+            organization: {
+              ...action.meta,
+              ...action.payload,
+            },
           },
+        ],
+      };
+
+    case REQ_GET_TEAMS_SUCCESS:
+      return {
+        ...state,
+        teams: [
+          ...state.teams,
+          ...action.payload,
         ],
       };
 

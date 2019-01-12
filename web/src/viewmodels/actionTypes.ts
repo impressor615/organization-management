@@ -33,3 +33,6 @@ export const REQ_GET_USERS_FAILURE: string = "REQ_GET_USERS_FAILURE";
 export const REQ_POST_TEAM: string = "REQ_POST_TEAM";
 export const REQ_POST_TEAM_SUCCESS: string = "REQ_POST_TEAM_SUCCESS";
 export const REQ_POST_TEAM_FAILURE: string = "REQ_POST_TEAM_FAILURE";
+export const REQ_GET_TEAMS: string = "REQ_GET_TEAMS";
+export const REQ_GET_TEAMS_SUCCESS: string = "REQ_GET_TEAMS_SUCCESS";
+export const REQ_GET_TEAMS_FAILURE: string = "REQ_GET_TEAMS_FAILURE";
