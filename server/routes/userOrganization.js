@@ -3,7 +3,7 @@ const { sendError } = require('../utils/routeUtils');
 const { AUTHORITY } = require('../constants/models');
 
 module.exports = (router) => {
-  router.post('/organizations', async (req, res) => {
+  router.post('/user/organizations', async (req, res) => {
     const { user, body } = req;
     const { name } = body;
 
@@ -22,7 +22,7 @@ module.exports = (router) => {
   });
 
   // TODO: add filter, pagnation middlewares
-  router.get('/organizations', async (req, res) => {
+  router.get('/user/organizations', async (req, res) => {
     const { user } = req;
     const { organizations } = await User.findById(user._id)
       .populate('organizations.organization', '_id name')
@@ -32,7 +32,7 @@ module.exports = (router) => {
     res.json(organizations);
   });
 
-  router.put('/organizations/:id', async (req, res) => {
+  router.put('/user/organizations/:id', async (req, res) => {
     const { user, params, body } = req;
     const { name } = body;
     if (!name) {
@@ -56,7 +56,7 @@ module.exports = (router) => {
     res.json({});
   });
 
-  router.delete('/organizations/:id', async (req, res) => {
+  router.delete('/user/organizations/:id', async (req, res) => {
     const { user, params } = req;
     const { organizations } = await User.findById(user._id).lean().exec();
     const update = {

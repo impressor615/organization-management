@@ -7,7 +7,7 @@ const {
   errors,
 } = chai;
 const { User, Organization } = models;
-describe('Organization Router', () => {
+describe('User Organization Router', () => {
   let accessToken;
   let orgId;
   before(async () => {
@@ -39,10 +39,10 @@ describe('Organization Router', () => {
     await Organization.deleteMany();
   });
 
-  describe('POST /api/organizations', () => {
+  describe('POST /api/user/organizations', () => {
     it('should return orgazation id', async () => {
       const res = await chai.request(app)
-        .post('/api/organizations')
+        .post('/api/user/organizations')
         .set('x-access-token', accessToken)
         .send({ name: 'orgchart' });
 
@@ -52,17 +52,17 @@ describe('Organization Router', () => {
 
     it('should return invalid_route_data when there is no request body ', async () => {
       const res = await chai.request(app)
-        .post('/api/organizations')
+        .post('/api/user/organizations')
         .set('x-access-token', accessToken);
 
       assertError(res.error.text, errors.route_invalid_data);
     });
   });
 
-  describe('GET /api/organizations', () => {
+  describe('GET /api/user/organizations', () => {
     it('should return users\' organizations', async () => {
       const res = await chai.request(app)
-        .get('/api/organizations')
+        .get('/api/user/organizations')
         .set('x-access-token', accessToken);
 
       res.status.should.equal(200);
@@ -73,18 +73,18 @@ describe('Organization Router', () => {
     });
   });
 
-  describe('PUT /api/organizations/:id', () => {
+  describe('PUT /api/user/organizations/:id', () => {
     it('should update the organizations info', async () => {
       const update = { name: 'orgchart1' };
       const res = await chai.request(app)
-        .put(`/api/organizations/${orgId}`)
+        .put(`/api/user/organizations/${orgId}`)
         .set('x-access-token', accessToken)
         .send(update);
 
       res.status.should.equal(200);
 
       const getRes = await chai.request(app)
-        .get('/api/organizations')
+        .get('/api/user/organizations')
         .set('x-access-token', accessToken);
 
       getRes.body.should.lengthOf(1);
@@ -93,7 +93,7 @@ describe('Organization Router', () => {
 
     it('should return invalid data when update is not provided', async () => {
       const res = await chai.request(app)
-        .put('/api/organizations/fakeId')
+        .put('/api/user/organizations/fakeId')
         .set('x-access-token', accessToken);
 
       assertError(res.error.text, errors.route_invalid_data);
@@ -102,7 +102,7 @@ describe('Organization Router', () => {
     it('should return invalid data when the user don\'t belong to the org', async () => {
       const update = { name: 'orgchart1' };
       const res = await chai.request(app)
-        .put('/api/organizations/fakeId')
+        .put('/api/user/organizations/fakeId')
         .set('x-access-token', accessToken)
         .send(update);
 
@@ -110,17 +110,17 @@ describe('Organization Router', () => {
     });
   });
 
-  describe('DELETE /api/organizations/:id', () => {
+  describe('DELETE /api/user/organizations/:id', () => {
     it('should delete the organization', async () => {
       const res = await chai.request(app)
-        .delete(`/api/organizations/${orgId}`)
+        .delete(`/api/user/organizations/${orgId}`)
         .set('x-access-token', accessToken);
 
       res.status.should.equal(200);
       res.body.should.empty;
 
       const getRes = await chai.request(app)
-        .get('/api/organizations')
+        .get('/api/user/organizations')
         .set('x-access-token', accessToken);
 
       getRes.body.should.lengthOf(0);
