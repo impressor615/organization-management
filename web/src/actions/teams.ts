@@ -14,7 +14,7 @@ export const createTeam = (data: object) => (dispatch: Dispatch) => (
   dispatch({
     [RSAA]: {
       body: data,
-      endpoint: "/api/user/organizations",
+      endpoint: "/api/user/teams",
       method: "POST",
       types: [
         REQ_POST_TEAM,
@@ -31,7 +31,7 @@ export const createTeam = (data: object) => (dispatch: Dispatch) => (
 export const getTeams = () => (dispatch: Dispatch) => (
   dispatch({
     [RSAA]: {
-      endpoint: "/api/user/organizations",
+      endpoint: "/api/user/teams",
       method: "GET",
       types: [
         REQ_GET_TEAMS,
