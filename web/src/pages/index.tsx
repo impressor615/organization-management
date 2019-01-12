@@ -9,7 +9,6 @@ import {
 
 import Message from "@/components/Message";
 import configureStore from "@/configureStore";
-import Dashboard from "@/pages/dashboard";
 import Login from "@/pages/login";
 import Logout from "@/pages/logout";
 import Register from "@/pages/register";
@@ -24,8 +23,6 @@ class App extends PureComponent {
             <Switch>
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
-              <Route exact path="/dashboard" component={Dashboard} />
-              <Route exact path="/dashboard/:id" component={Dashboard} />
               <Route exact path="/logout" component={Logout} />
               <Redirect to="/login" />
             </Switch>
