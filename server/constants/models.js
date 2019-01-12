@@ -10,7 +10,15 @@ const AUTHORITY = {
   member: 'member',
 };
 
+const TEAM_SIZES = {
+  tiny: 'tiny',
+  small: 'small',
+  medium: 'medium',
+  big: 'big',
+};
+
 module.exports = {
   TIMESTAMPS,
   AUTHORITY,
+  TEAM_SIZES,
 };

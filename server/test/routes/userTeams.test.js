@@ -1,12 +1,15 @@
 const chai = require('chai');
 
+
 const {
   app,
   models,
   assertError,
   errors,
+  constants,
 } = chai;
 const { User, Team } = models;
+const { TEAM_SIZES } = constants;
 describe('User Teams Router', () => {
   let accessToken;
   let orgId;
@@ -44,7 +47,7 @@ describe('User Teams Router', () => {
       const res = await chai.request(app)
         .post('/api/user/teams')
         .set('x-access-token', accessToken)
-        .send({ name: 'orgchart' });
+        .send({ name: 'orgchart', size: TEAM_SIZES.tiny });
 
       res.body.should.include.keys(['_id']);
       orgId = res.body._id;

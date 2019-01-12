@@ -5,9 +5,9 @@ const { AUTHORITY } = require('../constants/models');
 module.exports = (router) => {
   router.post('/user/teams', async (req, res) => {
     const { user, body } = req;
-    const { name } = body;
+    const { name, size } = body;
 
-    if (!name) {
+    if (!name || !size) {
       sendError({ res, language: req.language });
       return;
     }
@@ -36,8 +36,8 @@ module.exports = (router) => {
 
   router.put('/user/teams/:id', async (req, res) => {
     const { user, params, body } = req;
-    const { name } = body;
-    if (!name) {
+    const { name, size } = body;
+    if (!name && !size) {
       sendError({ res, langauge: req.langauge });
       return;
     }
@@ -54,7 +54,9 @@ module.exports = (router) => {
       return;
     }
 
-    await Team.findByIdAndUpdate(params.id, { name }).exec();
+    const update = { name, size };
+    Object.keys(update).forEach(key => !update[key] && delete update[key]);
+    await Team.findByIdAndUpdate(params.id, update).exec();
     res.json({});
   });
 
