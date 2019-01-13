@@ -1,5 +1,6 @@
 /* eslint-disable */
 const bodyParser = require('body-parser');
+const compression = require('compression');
 
 const parseLanguage = require('./parseLanguage');
 const pagination = require('./pagination');
@@ -11,6 +12,7 @@ module.exports = (app) => {
     app.use(morgan('combined'));
   }
   app.use(bodyParser.json());
+  app.use(compression());
   app.use(parseLanguage);
   app.use(pagination);
   app.use(/^\/api\/user\/teams.*$/, auth);
