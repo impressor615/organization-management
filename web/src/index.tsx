@@ -15,6 +15,8 @@ import {
 import React from "react";
 import ReactDOM from "react-dom";
 
+import registerSW from "@/register-sw";
+
 import App from "@/pages";
 
 const faIcons = [
@@ -33,3 +35,5 @@ ReactDOM.render(
     <App />,
     document.getElementById("app"),
 );
+
+registerSW();
