@@ -24,7 +24,7 @@ module.exports = (router) => {
   router.get('/user/teams', async (req, res) => {
     const { user, query } = req;
     const { count, skip } = query;
-    const { teams } = await User.findById(user._id)
+    const { teams = [] } = await User.findById(user._id)
       .populate('teams.team', '_id name size')
       .skip(skip)
       .limit(count)
