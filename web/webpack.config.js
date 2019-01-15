@@ -52,7 +52,7 @@ module.exports = {
       skipWaiting: true,
       runtimeCaching: [{
         urlPattern: new RegExp('http://localhost:8080'),
-        handler: 'staleWhileRevalidate'
+        handler: 'networkFirst'
       }],
     }),
   ],
